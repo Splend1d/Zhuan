@@ -1,0 +1,43 @@
+
+*, *:before, *:after{
+    box-sizing: border-box;
+    padding: 0; margin: 0;
+    text-decoration: none;
+    color: #111;
+}
+    button:hover {
+        cursor: pointer
+    }
+    button {
+        background: transparent; outline: none;
+        position: relative;
+        border: 2px solid #111;
+        padding: 15px 50px;
+        overflow: hidden;
+    }
+  
+    /*button:before (attr data-hover)*/
+    button:hover:before {
+        opacity: 1; 
+        transform: translate(0,0);
+    }
+    button:before {
+        content: attr(data-hover);
+        position: absolute;
+        top: 1.1em; left: 0;
+        width: 100%;
+        letter-spacing: 3px;
+        font-weight: 800;
+        font-size: 12pt;
+        opacity: 0;
+        transform: translate(-100%,0);
+        transition: all .3s ease-in-out;
+      }
+    /*button div (button text before hover)*/
+    button:hover p{opacity: 0; transform: translate(100%,0)}
+    button p{
+        letter-spacing: 3px;
+        font-weight: 800;
+        font-size: 12pt;
+        transition: all .3s ease-in-out;
+    }
