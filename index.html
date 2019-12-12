@@ -1,62 +1,91 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>篆來傳去</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>Random Questions</title>
-</head>
-<body>
-    <p id="message001">This country's capital is <text id="name001"></text>.</p>
-    <div id="disappear001">
-    <input type="text" id="input001" /><button onclick="submit001()">Submit</button>
-        </div>
-    <p id="answer001"></p>
-    <p id="button001"></p>
+		<!-- Header -->
+			<header id="header">
+				<div class="logo"><a href="index.html">篆來篆去</a></div>
+				<a href="#menu"><span>Menu</span></a>
+			</header>
 
-    <script>
-        var capitals001 = ["Jerusalem", "London", "Washington DC", "Addis Ababa"];
-        var countries001 = ["Palestine", "UK", "USA", "Ethiopia"];
-        var random001 = Math.floor(Math.random() * capitals001.length);
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">首頁</a></li>
+					<li><a href="generic.html">作品詳介</a></li>
+					<li><a href="elements.html">Elements</a></li>
+				</ul>
+			</nav>
 
-        function submit001() {
-            var b = input001.value;
-            if (random001 == 0 && b == countries001[0]) {
-                document.getElementById("answer001").innerHTML = "Correct..";
-                document.getElementById("button001").innerHTML = "<button onclick=btn001()>Next</button>";
-                document.getElementById("disappear001").innerHTML = "";
+		<!-- Banner -->
+		<!--
+			Note: To show a background image, set the "data-bg" attribute below
+			to the full filename of your image. This is used in each section to set
+			the background image.
+		-->
+			<section id="banner" class="bg-img" data-bg="banner.jpg">
+				<div class="inner">
+					<header>
+						<h1>篆來篆去</h1>
+                        <h2>您的小篆學習器</h2>
+					</header>
+				</div>
+				<a href="#one" class="more">往下看遊戲說明</a>
+			</section>
 
-            } else if (random001 == 1 && b == countries001[1]) {
-                document.getElementById("answer001").innerHTML = "Correct..";
-                document.getElementById("button001").innerHTML = "<button onclick=btn001()>Next</button>";
-                document.getElementById("disappear001").innerHTML = "";
+		<!-- One -->
+			<section id="one" class="wrapper post bg-img" data-bg="banner2.jpg">
+				<div class="inner">
+					<article class="box">
+						<header>
+							<h2>篆來篆去</h2>
+							<p>遊戲說明</p>
+						</header>
+						<div class="content">
+							<p>遊戲難度分為三關</p>
+						</div>
+						<footer>
+							<a href="generic.html" class="button alt">點我看更多介紹</a>
+						</footer>
+					</article>
+				</div>
+				<a href="#two" class="more">Learn More</a>
+			</section>
 
-            } else if (random001 == 2 && b == countries001[2]) {
-                document.getElementById("answer001").innerHTML = "Correct..";
-                document.getElementById("button001").innerHTML = "<button onclick=btn001()>Next</button>";
-                document.getElementById("disappear001").innerHTML = "";
+		<!-- Two -->
+			<section id="two" class="wrapper post bg-img" data-bg="banner5.jpg">
+				<div class="inner">
+					<article class="box">
+						<header>
+							<h2>Mus elit a ultricies at</h2>
+							<p>12.21.2016</p>
+						</header>
+						<div class="content">
+							<p>Scelerisque enim mi curae erat ultricies lobortis donec velit in per cum consectetur purus a enim platea vestibulum lacinia et elit ante scelerisque vestibulum. At urna condimentum sed vulputate a duis in senectus ullamcorper lacus cubilia consectetur odio proin sociosqu a parturient nam ac blandit praesent aptent. Eros dignissim mus mauris a natoque ad suspendisse nulla a urna in tincidunt tristique enim arcu litora scelerisque eros suspendisse.</p>
+						</div>
+						<footer>
+							<a href="generic.html" class="button alt">Learn More</a>
+						</footer>
+					</article>
+				</div>
+				<a href="#three" class="more">Learn More</a>
+			</section>
 
-            } else if (random001 == 3 && b == countries001[3]) {
-                document.getElementById("answer001").innerHTML = "Correct..";
-                document.getElementById("button001").innerHTML = "<button onclick=btn001()>Next</button>";
-document.getElementById("disappear001").innerHTML = "";
-            }
+	
 
-            else {
-                document.getElementById("answer001").innerHTML = "Incorrect..";
-                document.getElementById("button001").innerHTML = "<button onclick=btn001()>Next</button>";
-                document.getElementById("disappear001").innerHTML = "";
-            }
-        }
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
 
-        document.getElementById("name001").innerHTML = capitals001[random001];
-
-        function btn001() {
-            random001 = Math.floor(Math.random() * capitals001.length);
-            document.getElementById("name001").innerHTML = capitals001[random001];
-            document.getElementById("button001").innerHTML = "";
-            document.getElementById("disappear001").innerHTML = "<input type=text id=input001 /><button onclick=submit001()>Submit</button>";
-            document.getElementById("answer001").innerHTML = "";
-        }
-    </script>
-</body>
+	</body>
 </html>
