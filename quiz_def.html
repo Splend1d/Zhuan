@@ -45,30 +45,34 @@
                 }
                 var row_data_idx = [0,0,0,0,0];
 
-                for (var j = 0; j < kai_ans.length; j++){
-
-                    if (kai_ans[j] == row_data[0]) {
-                        //alert("a");
-                        row_data_idx[0] = kai_qidx[j];
-                    }
-                    if (kai_ans[j] == row_data[1]) {
-                        row_data_idx[1] = kai_qidx[j];
-                        //alert("b");
-                    }
-                    if (kai_ans[j] == row_data[2]) {
-                        row_data_idx[2] = kai_qidx[j];
-                        //alert("c");
-                    }
-                    if (kai_ans[j] == row_data[3]) {
-                        row_data_idx[3] = kai_qidx[j];
-                        //alert("d");
-                    }
-                    if (kai_ans[j] == row_data[4]) {
-                        row_data_idx[4] = kai_qidx[j];
-                        //alert("e");
-                    }
+                //for (var i = 0; i < kai_ans.length; i++){
+                for (var j = 0; j < 5; j++) {
+                    if (!(row_data[j] in kai_dict))
+                        continue;
+                    row_data_idx[j] = kai_dict[row_data[j]];
                 }
-                //alert(row_data_idx);
+                    // if (kai_ans[j] == row_data[0]) {
+                    //     //alert("a");
+                    //     row_data_idx[0] = kai_qidx[j];
+                    // }
+                    // if (kai_ans[j] == row_data[1]) {
+                    //     row_data_idx[1] = kai_qidx[j];
+                    //     //alert("b");
+                    // }
+                    // if (kai_ans[j] == row_data[2]) {
+                    //     row_data_idx[2] = kai_qidx[j];
+                    //     //alert("c");
+                    // }
+                    // if (kai_ans[j] == row_data[3]) {
+                    //     row_data_idx[3] = kai_qidx[j];
+                    //     //alert("d");
+                    // }
+                    // if (kai_ans[j] == row_data[4]) {
+                    //     row_data_idx[4] = kai_qidx[j];
+                    //     //alert("e");
+                    // }
+                    // }
+                alert(row_data_idx);
                 pic_def.push(row_data_idx);
                 word_def.push(row_data);
             }
@@ -107,7 +111,7 @@
                 row = table.insertRow(-1);
                 for (var j = 0; j < columnCount; j++) {
                     var cell = row.insertCell(-1);
-                    if (pic_def[i][j] == 0) {
+                    if (pic_def[i][j] == '') {
                         cell.style = "font-size: 100px;"
                         cell.innerHTML = word_def[i][j];
                     } else {
