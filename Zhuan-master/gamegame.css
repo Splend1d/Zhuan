@@ -1,0 +1,104 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,800);
+
+*, *:before, *:after{
+  box-sizing: border-box;
+  padding: 0; margin: 0;
+  font: 300 1em/1.5 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  text-decoration: none;
+  color: #111;
+}
+
+html, body{background: rgb(236, 240, 241);}
+
+  section.container{
+    min-width: 500px;
+    margin: 10% auto;
+    text-align: center;
+  }
+    a:hover{border-bottom: 1px solid #111;} 
+    h1{font-size: 2em; padding: 20px 0;}
+    p{
+      font-size: .75em;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 20px 0;
+    }
+
+    button:hover{cursor: pointer}
+    button {
+      background: transparent; outline: none;
+      position: relative;
+      border: 2px solid #111;
+      padding: 15px 50px;
+      overflow: hidden;
+    }
+
+    /*button:before (attr data-hover)*/
+    button:hover:before{opacity: 1; transform: translate(0,0);}
+    button:before{
+      content: attr(data-hover);
+      position: absolute;
+      top: 1.1em; left: 0;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 800;
+      font-size: .8em;
+      opacity: 0;
+      transform: translate(-100%,0);
+      transition: all .3s ease-in-out;
+    }
+      /*button div (button text before hover)*/
+      button:hover div{opacity: 0; transform: translate(100%,0)}
+      button div{
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-weight: 800;
+        font-size: .8em;
+        transition: all .3s ease-in-out;
+      }
+
+
+
+
+	* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding in columns */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+
+/* Responsive columns - one column layout (vertical) on small screens */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
