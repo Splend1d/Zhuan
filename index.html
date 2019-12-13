@@ -6,7 +6,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
         <script>
-            document.getElementById("header").scrollIntoView()
+            function url_delay(URL) {
+                //alert("d")
+                //setTimeout(function () { window.location = '#'+URL; }, 1000);
+                document.getElementById(URL).scrollIntoView({ behavior: "smooth" });
+                
+                
+            }
         </script>
 	</head>
 	<body>
@@ -21,9 +27,8 @@
 			<nav id="menu">
 				<ul class="links">
 					<li><a href="index.html">首頁</a></li>
-					<li><a href="generic.html">作品詳介</a></li>
-                    <li><p onClick='document.getElementById("two").scrollIntoView({ behavior: "smooth" }); style = "background-color: Transparent;"'>開始學習</p></li>
-                    <li><a href="#two">開始學習</a></li>
+					<li><a href="javascript:url_delay('one')">作品詳介</a></li>
+                    <li><a href="javascript:url_delay('two')">開始學習</a></li>
 				</ul>
 			</nav>
 
