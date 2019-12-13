@@ -6,20 +6,21 @@
     color: #111;
 }
     button:hover {
-        cursor: pointer
+        cursor: pointer;
+        padding: 0px 50px;
     }
     button {
         background: transparent; outline: none;
         position: relative;
         border: 2px solid #111;
-        padding: 15px 50px;
+        padding: 0px 50px;
         overflow: hidden;
     }
   
     /*button:before (attr data-hover)*/
     button:hover:before {
         opacity: 1; 
-        transform: translate(0,0);
+        transform: translate(0,-50%);
     }
     button:before {
         content: attr(data-hover);
@@ -30,11 +31,11 @@
         font-weight: 800;
         font-size: 12pt;
         opacity: 0;
-        transform: translate(-100%,0);
+        transform: translate(-100%,50%);
         transition: all .3s ease-in-out;
       }
     /*button div (button text before hover)*/
-    button:hover p{opacity: 0; transform: translate(100%,0)}
+    button:hover p{opacity: 0; transform: translate(100%,50%)}
     button p{
         letter-spacing: 3px;
         font-weight: 800;
