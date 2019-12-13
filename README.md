@@ -5,6 +5,8 @@ https://splend1d.github.io/Zhuan/
 
 #TODO
 
+[essential]
+
 部件學習
 
 --爬取部件
@@ -15,7 +17,9 @@ https://splend1d.github.io/Zhuan/
 
 擴充字典for說文
 
+--------------
 
+[later]
 
 找異體字代換
 
