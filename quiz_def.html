@@ -38,14 +38,13 @@
             if (b == kai_ans[this_char_idx]) {
                 document.getElementById("str_res").innerHTML = "答案正確！";
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
-                //document.getElementById("btn_next_div").style.display = ""; 
+                //document.getElementById("btn_submit_div").style.display = "";
                 setTimeout(function () { gen_q(); }, 1000);
 
             }
 
             else {
                 document.getElementById("str_res").innerHTML = "答案不正確！";
-                
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
                 //document.getElementById("btn_submit_div").innerHTML = "";
                 //document.getElementById("btn_submit_div").style.display = "none";
@@ -56,7 +55,6 @@
         }
         function show_ans() {
             document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];
-            document.getElementById("btn_next_div").style.display = ""; //show next button
         }
 
         function gen_q() {
@@ -66,13 +64,10 @@
             document.getElementById("pic_q").alt = kai_qidx[this_char_idx];
             document.getElementById("btn_submit_div").style.display = "";
             document.getElementById("str_res").innerHTML = ""//kai_qidx[this_char_idx];
-            document.getElementById("btn_next_div").style.display = "none"; //show next button
         }
     </script>
     <div><a href="game_character.html"><button style = "float: left;">回主頁</button></a></div>
-    <div id = "btn_next_div" style="display:none;">
-        <button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
-    </div>
+    <div><button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button></div>
     <div>
         <p id="now_q_idx" align="center"></p>
     </div>
@@ -83,7 +78,7 @@
         <img id="pic_q" src="" alt = "1" >
     </div>
     <!--style="visibility:hidden;width:50px;height:50px;"-->
-    <div id="btn_submit_div" >
+    <div id="btn_submit_div" style="display:">
         <input type="text" id="btn_submit" /><button onclick="submit_ans()">送出</button>
         <button id="btn_hint" onclick="show_hint()">提示</button>
         <button id="btn_show" onclick="show_ans()">顯示答案</button>
