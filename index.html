@@ -1,10 +1,13 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
 	<head>
 		<title>篆來傳去</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+        <script>
+            document.getElementById("header").scrollIntoView()
+        </script>
 	</head>
 	<body>
 
@@ -19,7 +22,8 @@
 				<ul class="links">
 					<li><a href="index.html">首頁</a></li>
 					<li><a href="generic.html">作品詳介</a></li>
-                    <li><a href="index.html#two">開始學習</a></li>
+                    <li><p onClick='document.getElementById("two").scrollIntoView({ behavior: "smooth" }); style = "background-color: Transparent;"'>開始學習</p></li>
+                    <li><a href="#two">開始學習</a></li>
 				</ul>
 			</nav>
 
