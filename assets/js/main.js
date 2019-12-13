@@ -22,15 +22,11 @@
 			$banner = $('#banner');
 
 		var $height = $('#header').height();
-<<<<<<< Updated upstream
-
-=======
         //force reload -- (ADDED)
 		    // $(document).ready(function () {
 		    //     $('html').animate({ scrollTop: 0 }, 1);
 		    //     $body.animate({ scrollTop: 0 }, 1);
 		    // });
->>>>>>> Stashed changes
 		// Disable animations/transitions until the page has loaded.
 			$body.addClass('is-loading');
 
