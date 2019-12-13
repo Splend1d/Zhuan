@@ -33,54 +33,158 @@
         }
 
         var random_idx_ls = shuffle(level_idx_ls);
+
+        function GenerateTable() {
+            //Build an array containing Customer records.
+            var pic_def = new Array();
+            var word_def = new Array();
+            for (var i = 0; i < kai_def[this_char_idx].length; i+=5) {
+                var row_data = kai_def[this_char_idx].slice(i,i+5);
+                while (row_data.length < 5) {
+                    row_data += ['\t'];
+                }
+                var row_data_idx = [0,0,0,0,0];
+
+                for (var j = 0; j < kai_ans.length; j++){
+
+                    if (kai_ans[j] == row_data[0]) {
+                        //alert("a");
+                        row_data_idx[0] = kai_qidx[j];
+                    }
+                    if (kai_ans[j] == row_data[1]) {
+                        row_data_idx[1] = kai_qidx[j];
+                        //alert("b");
+                    }
+                    if (kai_ans[j] == row_data[2]) {
+                        row_data_idx[2] = kai_qidx[j];
+                        //alert("c");
+                    }
+                    if (kai_ans[j] == row_data[3]) {
+                        row_data_idx[3] = kai_qidx[j];
+                        //alert("d");
+                    }
+                    if (kai_ans[j] == row_data[4]) {
+                        row_data_idx[4] = kai_qidx[j];
+                        //alert("e");
+                    }
+                }
+                //alert(row_data_idx);
+                pic_def.push(row_data_idx);
+                word_def.push(row_data);
+            }
+     
+            //Create a HTML Table element.
+            var table = document.createElement("TABLE");
+            table.border = "0";
+     
+            //Get the count of columns.
+            var columnCount = pic_def[0].length;
+     
+            //Add the header row.
+            // var row = table.insertRow(-1);
+            // for (var i = 0; i < columnCount; i++) {
+            //     var headerCell = document.createElement("TD");
+            //     if (pic_def[0][i] == 0) {
+            //         //var font = document.createElement("font");
+            //         headerCell.style = "font-size: 100px;"
+            //         headerCell.innerHTML = word_def[0][i];
+            //         //font.size="10px";
+            //         //headerCell.appendChild(font);
+                    
+            //     } else {
+            //         var img_inc = document.createElement("img");
+            //         img_inc.src = "./assets/database/img/"+pic_def[0][i]+".png";
+            //         img_inc.style = "height:100px;width:100px;";
+            //         headerCell.appendChild(img_inc);//pic_def[0][i];
+            //     }
+                
+                
+            //     row.appendChild(headerCell);
+            // }
+     
+            //Add the data rows.
+            for (var i = 0; i < pic_def.length; i++) {
+                row = table.insertRow(-1);
+                for (var j = 0; j < columnCount; j++) {
+                    var cell = row.insertCell(-1);
+                    if (pic_def[i][j] == 0) {
+                        cell.style = "font-size: 100px;"
+                        cell.innerHTML = word_def[i][j];
+                    } else {
+                        var img_inc = document.createElement("img");
+                        img_inc.src = "./assets/database/img/"+pic_def[i][j]+".png";
+                        img_inc.style = "height:100px;width:100px;";
+                        cell.appendChild(img_inc);
+                    }
+                    
+                    
+                    //cell.innerHTML = pic_def[i][j];
+            }
+        }
+ 
+        var dvTable = document.getElementById("dvTable");
+        dvTable.innerHTML = "";
+        dvTable.appendChild(table);
+    }
         function submit_ans() {
             var b = btn_submit.value;
             if (b == kai_ans[this_char_idx]) {
                 document.getElementById("str_res").innerHTML = "答案正確！";
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
-                //document.getElementById("btn_submit_div").style.display = "";
+                //document.getElementById("btn_next_div").style.visibility = ""; 
                 setTimeout(function () { gen_q(); }, 1000);
 
             }
 
             else {
                 document.getElementById("str_res").innerHTML = "答案不正確！";
+                
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
                 //document.getElementById("btn_submit_div").innerHTML = "";
                 //document.getElementById("btn_submit_div").style.display = "none";
             }
         }
-        function show_hint() {
-            document.getElementById("str_res").innerHTML = kai_def[0];
-        }
+        // function show_hint() {
+        //     document.getElementById("str_res").innerHTML = kai_def[this_char_idx];
+        // }
         function show_ans() {
             document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];
+            document.getElementById("btn_next_div").style.visibility = ""; //show next button
         }
 
         function gen_q() {
             this_q_idx += 1;
             this_char_idx = random_idx_ls[this_q_idx] + (level-1)*100;
+            GenerateTable();
+            document.getElementById("str_q").innerHTML = kai_def[this_char_idx];
             document.getElementById("pic_q").src = "./assets/database/img/"+kai_qidx[this_char_idx]+".png";
             document.getElementById("pic_q").alt = kai_qidx[this_char_idx];
             document.getElementById("btn_submit_div").style.display = "";
             document.getElementById("str_res").innerHTML = ""//kai_qidx[this_char_idx];
+            document.getElementById("btn_next_div").style.visibility = "hidden"; 
         }
     </script>
     <div><a href="game_character.html"><button style = "float: left;">回主頁</button></a></div>
-    <div><button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button></div>
+    <div id = "btn_next_div" style="visibility:hidden;color:red;">
+        <button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
+    </div>
     <div>
         <p id="now_q_idx" align="center"></p>
     </div>
     <div>
-        <p id="meassage_req" align="center">請輸入這個小篆文字的現代漢字寫法！</p>
+        <p id="message_req" align="center">請輸入這個釋義的現代漢字！</p>
     </div>
     <div>
-        <img id="pic_q" src="" alt = "1" >
+        <p id="str_q" align="center" style="display: none"></p> <!--for debug-->
+        <img id="pic_q" src="" alt = "1" style="display: none"> <!--for debug-->
     </div>
     <!--style="visibility:hidden;width:50px;height:50px;"-->
-    <div id="btn_submit_div" style="display:">
+    <div id="dvTable" align="center">
+    </div>
+    <div id="btn_submit_div" align="center" >
+        <!--input type="button" value="Generate Table" onclick="GenerateTable()" /-->
+        
         <input type="text" id="btn_submit" /><button onclick="submit_ans()">送出</button>
-        <button id="btn_hint" onclick="show_hint()">提示</button>
         <button id="btn_show" onclick="show_ans()">顯示答案</button>
     </div>
 
