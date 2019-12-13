@@ -45,11 +45,11 @@ html, body{background: rgb(236, 240, 241);}
       font-weight: 800;
       font-size: .8em;
       opacity: 0;
-      transform: translate(-100%,0);
+      transform: translate(-100%,100%);
       transition: all .3s ease-in-out;
     }
       /*button div (button text before hover)*/
-      button:hover div{opacity: 0; transform: translate(100%,0)}
+      button:hover div{opacity: 0; transform: translate(100%,50%)}
       button div{
         text-transform: uppercase;
         letter-spacing: 3px;
