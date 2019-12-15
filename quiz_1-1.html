@@ -57,7 +57,7 @@
         }
         function show_ans() {
             document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];
-            document.getElementById("btn_next_div").style.display = ""; //show next button
+            document.getElementById("btn_next_div").style.visibility = ""; //show next button
         }
 
         function gen_q() {
@@ -67,7 +67,7 @@
             document.getElementById("pic_q").alt = kai_qidx[this_char_idx];
             document.getElementById("btn_submit_div").style.display = "";
             document.getElementById("str_res").innerHTML = ""//kai_qidx[this_char_idx];
-            document.getElementById("btn_next_div").style.display = "none"; //show next button
+            document.getElementById("btn_next_div").style.visibility = "hidden"; //hide next button
         }
     </script>
     			<header id="header" class="alt">
@@ -89,7 +89,7 @@
                             <article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 10px;">
         
     <div><a href="game_character.html"><button style = "float: left;">回遊戲選單</button></a></div>
-    <div id = "btn_next_div" style="display:none;">
+    <div id = "btn_next_div" style="visibility:hidden;">
         <button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
     </div>
     <div>
