@@ -10,10 +10,30 @@
 		<style>
 			.column {
             background-color: rosybrown;
+            background-size:100%;
+                 width:33.33%;
+            background-attachment: fixed;
             float: left;
+<<<<<<< HEAD
             width: 33.33%;
+			text-align: center;
+			padding-bottom: 10px;
+=======
+            height: auto;
             text-align: center;
+>>>>>>> fa7488eebb2678d6a6b284f06c0009229c154522
             }
+            .button alt icon fa-chevron-left
+            {position: relative;
+            top:80px;
+　          left:80px}
+			.gameInfo > h3 {
+				margin: 10px;
+			}
+			.gameInfo {
+				padding-bottom: 10px;
+			}
+            
         </style>
 		
 	</head>
@@ -21,7 +41,8 @@
 
 		<!-- Header -->
 			<header id="header" class="alt">
-			<a href="#menu"><span>Menu</span></a>
+				<div class="logo"><a href="index.html">篆來篆去</a></div>
+				<a href="#menu"><span>Menu</span></a>
 			</header>
 
 		<!-- Nav -->
@@ -29,7 +50,7 @@
 				<ul class="links">
 					<li><a href="index.html">首頁</a></li>
 					<li><a href="generic.html">作品詳介</a></li>
-					<li><a href="elements.html">Elements</a></li>
+					<li><a href="index.html#two">開始學習</a></li>
 				</ul>
 			</nav>
 
@@ -39,17 +60,17 @@
 			to the full filename of your image. This is used in each section to set
 			the background image.
 		-->
-			<section id="post" class="wrapper bg-img" data-bg="banner2.jpg">
+			<section id="post" class="wrapper bg-img" data-bg="banner2.jpg" style="padding-top: 0px;">
 				<div class="inner">
-					<article class="box">
-						<header>
+					<article class="box" style="padding-top: 25px;">
+						<header style="text-align: center;">
 							<h2>單字學習</h2>
 							<p>共有三種學習模式可選擇</p>
 						</header>
 						<div class="row">
 								<div class="column">
-									<div class="gameInfo"><h2>無聊學</h2>
-								 <span>每一關皆會直接顯示答案，您可直接記憶，無聊但是有效率XD</span></div>
+									<div class="gameInfo"><h3>無聊學</h3>
+								    <span>每一關皆會直接顯示答案，您可直接記憶，無聊但是有效率XD</span></div>
                         
 									<div><a href="quiz_1-1.html?level=01"><button  data-hover="挑戰!"><p>第 1 關</p></button></a></div>
 									<div><a href="quiz_1-1.html?level=01"><button  data-hover="挑戰!"><p>第 2 關</p></button></a></div>
@@ -74,8 +95,8 @@
 								</div>
 									
 								<div class="column">
-									<div class="gameInfo"><h2><a href="#"></a>直接猜</h2>
-									<span>每題皆為一張小篆字型圖片，輸入您認為是什麼字，答對後可進入下一關</span></div>
+									<div class="gameInfo"><h3><a href="#"></a>直接猜</h3>
+									<span>每題皆為一張小篆字型圖片，輸入您的答案，答對後可進入下一關</span></div>
                                     
 									<div><a href="quiz_1-1.html?level=01"><button  data-hover="挑戰!"><p>第 1 關</p></button></a></div>
 									<div><a href="quiz_1-1.html?level=02"><button  data-hover="挑戰!"><p>第 2 關</p></button></a></div>
@@ -100,7 +121,7 @@
 								</div>
 									
 								<div class="column">
-									<div class="gameInfo"><h2><a href="#"></a>說文猜</h2>
+									<div class="gameInfo"><h3><a href="#"></a>說文猜</h3>
                                         <span>每題題目為一段說文解字內容，請猜出題目描述的是哪一個字</span></div>
 									<div><a href="quiz_def.html?level=01"><button  data-hover="挑戰!"><p>第 1 關</p></button></a></div>
 									<div><a href="quiz_def.html?level=02"><button  data-hover="挑戰!"><p>第 2 關</p></button></a></div>
@@ -125,9 +146,6 @@
 								</div>
 							</div>
 						<footer>
-							<ul class="actions">
-								<li><a href="index.html" class="button alt icon fa-chevron-left">Home</a></li>
-							</ul>
 						</footer>
 					</article>
 				</div>
