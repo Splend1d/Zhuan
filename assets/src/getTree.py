@@ -1,8 +1,13 @@
 # do getfont2.py and getimg.py first
 import sys
 import os
+import pandas as pd
+import json
 from time import sleep as sleep
-
+from selenium import webdriver
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import WebDriverException
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 class Crawler():
 
     def __init__(self):
@@ -20,16 +25,19 @@ class Crawler():
         self.mouse = webdriver.common.action_chains.ActionChains(self.browser)
         
         
-        #self.tree = [["字體編號","衍生字","子部件"]]
-        self.tree = {"27.0000":{"child":set(),"parent":set()}}
+        #self.tree = [["字體編號","衍生字"]]
+        #self.tree = {"27.0000":["27.0000","27.0000","27.0000"]}
+        self.tree = {}
 
         # self.browser.get('https://content.steeluniversity.org/simulators/bos/index.html')
         self.browser.get('http://xiaoxue.iis.sinica.edu.tw/ccdb?ccmapcode=4')
         print('web reached')
-        #sleep(10) #disable image showing on web manually
+        sleep(10) #disable image showing on web manually
         
-    def get_tree(self):
-    	self.browser.find_element_by_xpath('//*[@id="XiaozhuanParts"]').send_keys("一")
+    def get_tree(self, thisfontid, thisfont):
+        self.tree[thisfontid] = []
+        self.browser.find_element_by_xpath('//*[@id="XiaozhuanParts"]').clear()
+        self.browser.find_element_by_xpath('//*[@id="XiaozhuanParts"]').send_keys(thisfont)
         self.browser.find_element_by_xpath('//*[@id="Submit"]').click()
         sleep(2)
         page_info = self.browser.find_element_by_xpath('/html/body/table[2]/tbody/tr/td[3]/form/table[1]/tbody/tr/td').text
@@ -50,8 +58,8 @@ class Crawler():
                         #print("cant")
                     #word
                     urlinfo = urlparse(query.get_attribute("href"))#.kaiOrder
-                    kai_order = parse_qs(urlinfo.query)['kaiOrder'][0]
-                    zh_order = query.text
+                    #kai_order = parse_qs(urlinfo.query)['kaiOrder'][0]
+                    #zh_order = query.text
                     
                     imgpath = '/html/body/table[2]/tbody/tr/td[3]/form/div/table/tbody/tr['+ str(tr_) + ']/td['+ str(td_) + ']/img'
                     imgele = self.browser.find_element_by_xpath(imgpath)
@@ -62,16 +70,22 @@ class Crawler():
                     #print(imgtxt)
                     kai_txt_bin = kai_txt.encode("utf-8")
                     #print(imgtxt_bin)
-                    imgid = imgele.get_attribute("alt")[1:-1]
-                    self.databasetxt.append([zh_order, kai_order, imgid, kai_txt, kai_txt_bin])
-                    print(self.databasetxt)
-                    s()
+                    fontid = imgele.get_attribute("alt")[1:-1]
+                    self.tree[thisfontid].append(fontid)
+                    
             if (i + 1 != int(page_info)):
                self.browser.find_element_by_xpath('//*[@id="PageLink' + str(i + 2) + '"]').click()#change page
             
                     
 crl = Crawler()
-crl.get_info()
-with open('./db/db.csv', 'w', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerows(crl.databasetxt)
+df = pd.read_csv('../db/dbimg.csv')
+count = 1
+thisfontid_map_font = pd.Series(df.楷書字型.values,index=df.字體編號).to_dict()
+for k,v in thisfontid_map_font.items():
+    print(k,v,count)
+    crl.get_tree(k,v)
+    
+    with open('../db/dbtree.json', 'w') as f:
+        json.dump(crl.tree, f)
+
+    count += 1
