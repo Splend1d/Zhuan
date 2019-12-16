@@ -8,27 +8,28 @@ fontid_2000 = []
 font_2000 = []
 major_2000 = []
 
-with open("./db/freq.json","r") as f:
+with open("../db/freq.json","r") as f:
 	freq = json.load(f)
 lvls = sorted(list(set(freq.values())))
 for ch in freq:
 	kaiid_2000.append(int(ch))
-print(kaiid_2000)
+print(sorted(kaiid_2000))
 
-df = pd.read_csv('./db/db.csv')
+df = pd.read_csv('../db/db.csv')
 fontid_all = df["字體編號"]
 font_all = df["鍵盤字型"]
 kaiid_all = df["楷書編號"]
 font_map_fontid = {} 
 kaiid_map_font = {} 
 for d,f,k in zip(font_all,fontid_all,kaiid_all):
-	font_map_fontid[d] = f
-	kaiid_map_font[int(k[2:-2])] = d
+	if int(k[2:-2]) not in kaiid_map_font:
+		font_map_fontid[d] = f
+		kaiid_map_font[int(k[2:-2])] = d
 print(font_map_fontid)
 print(kaiid_map_font)
 
 
-df2 = pd.read_csv('./db/database_meaning.txt',sep='\t')
+df2 = pd.read_csv('../db/database_meaning.txt',sep='\t')
 kaiid_all2 = df2[df2.columns[0]]
 def_all = df2[df2.columns[1]]
 majors_all = df2[df2.columns[2]]
@@ -67,7 +68,7 @@ for w in kaiid_2000: # int
 			no_char_def_chars += 1
 
 	try:
-		thisdef.replace(kaiid_map_font[w], "@")
+		thisdef = thisdef.replace(kaiid_map_font[w], "@")
 	except:
 		print(w, "not in kaiid_map_font")
 		unlist.add(w)
@@ -91,7 +92,7 @@ print(len(def_2000))
 print(len(no_char_def))
 #print(no_char_def_chars)
 
-imgs = os.listdir('./db/img2')
+imgs = os.listdir('../db/img')
 #print(imgs)
 
 
@@ -115,7 +116,7 @@ print(fontid_2000)
 print(kaiid_2000)
 print(len(kaiid_2000),len(def_2000),len(major_2000),len(fontid_2000))
 
-with open("./db/db.js","w",encoding = "utf8") as f:
+with open("../db/db.js","w",encoding = "utf8") as f:
 	f.write("var kai_qidx =")
 	f.write(str(fontid_2000))
 	f.write(';\n')

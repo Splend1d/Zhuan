@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body align="center" onload = gen_q()>
-	<script src = "./assets/database/db.js"></script>
+	<script src = "./assets/db/db.js"></script>
     <script>
         var str_url = window.location.href;
         var this_url = new URL(str_url);
@@ -63,7 +63,7 @@
         function gen_q() {
             this_q_idx += 1;
             this_char_idx = random_idx_ls[this_q_idx] + (level-1)*100;
-            document.getElementById("pic_q").src = "./assets/database/img/"+kai_qidx[this_char_idx]+".png";
+            document.getElementById("pic_q").src = "./assets/db/img/"+kai_qidx[this_char_idx]+".png";
             document.getElementById("pic_q").alt = kai_qidx[this_char_idx];
             document.getElementById("btn_submit_div").style.display = "";
             document.getElementById("str_res").innerHTML = ""//kai_qidx[this_char_idx];
