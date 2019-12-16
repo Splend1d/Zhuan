@@ -8,17 +8,19 @@ import pandas as pd
 import sys
 import os
 
-df = pd.read_csv('./db/db.csv')
+df = pd.read_csv('../db/db.csv')
 imgids = df["字體編號"]
-imgmap = [["字體編號","楷書字體編號"]]
+imgmap = [["字體編號","楷書字體編號","楷書字型"]]
 for n,id_ in enumerate(imgids):
     print("retrieving img of: ",id_," No. ",n)
     session = HTMLSession()
     r = session.get('http://xiaoxue.iis.sinica.edu.tw/char?fontcode='+id_)
-    imgs = r.html.find('img')
+    imgs_html = r.html.find('img')
+    font_html = r.html.find(' td[style="font-size: 48px"]')
+    font = font_html[0].text
     c = 0
     tempmap = []
-    for i in imgs:
+    for i in imgs_html:
        #print(i.attrs)
        if "alt" not in i.attrs:
           continue
@@ -40,13 +42,14 @@ for n,id_ in enumerate(imgids):
        #print("large: ",img_url_l+'\n')
        #print("small: ",img_url+'\n')
        
-       r = requests.get(img_url_l, allow_redirects=True)
-       if "alt" in i.attrs:
-          open('./db/img2/'+i.attrs['alt'][1:-1]+'.png', 'wb').write(r.content)
-          #print(i.attrs)
-          tempmap.append(i.attrs['alt'][1:-1])
+       #r = requests.get(img_url_l, allow_redirects=True)
+       #if "alt" in i.attrs:
+       #   open('./db/img2/'+i.attrs['alt'][1:-1]+'.png', 'wb').write(r.content)
+       #   print(i.attrs)
+       tempmap.append(i.attrs['alt'][1:-1])
+    tempmap.append(font)
     imgmap.append(tempmap) 
  
-with open('./db/dbimg.csv', 'w', newline='') as f:
+with open('../db/dbimg.csv', 'w', newline='',encoding = "utf8") as f:
     writer = csv.writer(f)
     writer.writerows(imgmap)

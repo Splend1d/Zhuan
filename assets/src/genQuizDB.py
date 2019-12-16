@@ -16,8 +16,9 @@ for ch in freq:
 print(sorted(kaiid_2000))
 
 df = pd.read_csv('../db/db.csv')
+dfimg = pd.read_csv('../db/dbimg.csv')
 fontid_all = df["字體編號"]
-font_all = df["鍵盤字型"]
+font_all = dfimg["楷書字型"]
 kaiid_all = df["楷書編號"]
 font_map_fontid = {} 
 kaiid_map_font = {} 
@@ -89,7 +90,8 @@ print(len(font_2000))
 print(len(major_2000))
 print(len(fontid_2000))
 print(len(def_2000))
-print(len(no_char_def))
+print(no_char_def)
+s()
 #print(no_char_def_chars)
 
 imgs = os.listdir('../db/img')
