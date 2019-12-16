@@ -42,10 +42,10 @@ for n,id_ in enumerate(imgids):
        #print("large: ",img_url_l+'\n')
        #print("small: ",img_url+'\n')
        
-       #r = requests.get(img_url_l, allow_redirects=True)
-       #if "alt" in i.attrs:
-       #   open('./db/img2/'+i.attrs['alt'][1:-1]+'.png', 'wb').write(r.content)
-       #   print(i.attrs)
+       r = requests.get(img_url_l, allow_redirects=True)
+       if "alt" in i.attrs:
+         open('./db/img2/'+i.attrs['alt'][1:-1]+'.png', 'wb').write(r.content)
+         print(i.attrs)
        tempmap.append(i.attrs['alt'][1:-1])
     tempmap.append(font)
     imgmap.append(tempmap) 
