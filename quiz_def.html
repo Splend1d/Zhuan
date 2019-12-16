@@ -15,7 +15,7 @@
     </style>
 </head>
 <body align="center" onload = gen_q()>
-	<script src = "./assets/database/db.js"></script>
+	<script src = "./assets/db/db.js"></script>
     <script>
         var str_url = window.location.href;
         var this_url = new URL(str_url);
@@ -107,7 +107,7 @@
                     
             //     } else {
             //         var img_inc = document.createElement("img");
-            //         img_inc.src = "./assets/database/img/"+pic_def[0][i]+".png";
+            //         img_inc.src = "./assets/db/img/"+pic_def[0][i]+".png";
             //         img_inc.style = "height:100px;width:100px;";
             //         headerCell.appendChild(img_inc);//pic_def[0][i];
             //     }
@@ -126,7 +126,7 @@
                         cell.innerHTML = word_def[i][j];
                     } else {
                         var img_inc = document.createElement("img");
-                        img_inc.src = "./assets/database/img/"+pic_def[i][j]+".png";
+                        img_inc.src = "./assets/db/img/"+pic_def[i][j]+".png";
                         img_inc.style = "height:100px;width:100px;";
                         cell.appendChild(img_inc);
                     }
@@ -171,7 +171,7 @@
             this_char_idx = random_idx_ls[this_q_idx] + (level-1)*100;
             GenerateTable();
             document.getElementById("str_q").innerHTML = kai_def[this_char_idx];
-            document.getElementById("pic_q").src = "./assets/database/img/"+kai_qidx[this_char_idx]+".png";
+            document.getElementById("pic_q").src = "./assets/db/img/"+kai_qidx[this_char_idx]+".png";
             document.getElementById("pic_q").alt = kai_qidx[this_char_idx];
             document.getElementById("btn_submit_div").style.display = "";
             document.getElementById("str_res").innerHTML = ""//kai_qidx[this_char_idx];
