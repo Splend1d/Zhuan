@@ -3,6 +3,13 @@
     <meta charset="utf-8" />
     <title>Guess that Zhuan</title>
     <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+    table > tbody > td {
+        width: 100px;
+        height: 100px;
+        padding: 0px;
+    }
+    </style>
 </head>
 <body align="center" onload = gen_q()>
 	<script src = "./assets/database/db.js"></script>
@@ -194,8 +201,8 @@
         <p id="now_q_idx" align="center"></p>
     </div>
     <div>
-        <p id="str_q" align="center" style="display: none" width="70%"></p> <!--for debug-->
-        <img id="pic_q" src="" alt = "1" style="display: none" width="70%">> <!--for debug-->
+        <p id="str_q" align="center" style="display: none" width="40%"></p> <!--for debug-->
+        <img id="pic_q" src="" alt = "1" style="display: none" width="40%">> <!--for debug-->
     </div>
     <!--style="visibility:hidden;width:50px;height:50px;"-->
     <div id="dvTable" align="center">
