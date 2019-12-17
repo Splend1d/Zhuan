@@ -27,6 +27,7 @@ for d,f,k in zip(font_all,fontid_all,kaiid_all):
 		font_map_fontid[d] = f
 		kaiid_map_font[int(k[2:-2])] = d
 print(font_map_fontid)
+s()
 print(kaiid_map_font)
 
 

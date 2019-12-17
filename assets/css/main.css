@@ -2842,7 +2842,7 @@
 /* Wrapper */
 
 	.wrapper {
-		padding: 6em 0;
+		padding: 120px 0 120px;
 		position: relative;
 	}
 
@@ -3376,7 +3376,7 @@
 				color: #FFF;
 			}
 
-		#header > a {
+		#header a {
 			-moz-transition: color 0.2s ease-in-out;
 			-webkit-transition: color 0.2s ease-in-out;
 			-ms-transition: color 0.2s ease-in-out;
@@ -3386,7 +3386,9 @@
 			text-decoration: none;
 		}
 
-			#header > a[href="#menu"] {
+			
+
+			#header a[href="#menu"] {
 				text-decoration: none;
 				-webkit-tap-highlight-color: transparent;
 				background: rgba(255, 255, 255, 0.15);
@@ -3398,7 +3400,7 @@
 				text-align: center;
 			}
 
-				#header > a[href="#menu"]:before {
+				#header a[href="#menu"]:before {
 					content: "";
 					-moz-osx-font-smoothing: grayscale;
 					-webkit-font-smoothing: antialiased;
@@ -3408,23 +3410,23 @@
 					text-transform: none !important;
 				}
 
-				#header > a[href="#menu"]:hover {
+				#header a[href="#menu"]:hover {
 					color: rgba(255, 255, 255, 0.25);
 					background: none;
 					box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
 				}
 
-				#header > a[href="#menu"]:before {
+				#header a[href="#menu"]:before {
 					margin: 0;
 				}
 
-				#header > a[href="#menu"] span {
+				#header a[href="#menu"] span {
 					display: none;
 				}
 
 			@media screen and (max-width: 736px) {
 
-				#header > a {
+				#header a {
 					padding: 0 0.5em;
 				}
 
@@ -3826,7 +3828,7 @@
 			margin: 0 auto;
 		}
 
-		#post .button.icon {
+		#post .utton.icon {
 			padding: 0;
 			width: 4em;
 			height: 4em;

@@ -45,13 +45,13 @@ class Crawler():
         
     def get_info(self):
         self.browser.find_element_by_xpath('//*[@id="Submit"]').click()
-        sleep(2)
+        sleep(0.5)
         page_info = self.browser.find_element_by_xpath('/html/body/table[2]/tbody/tr/td[3]/form/table[1]/tbody/tr/td').text
         page_info = page_info.split('／')[1].split('頁')[0]
         print("total pages: ", page_info)  
         for i in range(int(page_info)):
             print("parsing page: ", i+1)
-            sleep(2)
+            sleep(0.5)
             for tr_ in range(1, 11, 2):
                 for td_ in range(1, 21, 2):
                     #xpath = '[@id="HiddenFrom"]/div/table/tbody/tr[' + str(tr_) + ']/td[' + str(td_) + ']/a'
