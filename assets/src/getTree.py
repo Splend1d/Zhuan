@@ -32,20 +32,20 @@ class Crawler():
         # self.browser.get('https://content.steeluniversity.org/simulators/bos/index.html')
         self.browser.get('http://xiaoxue.iis.sinica.edu.tw/ccdb?ccmapcode=4')
         print('web reached')
-        sleep(10) #disable image showing on web manually
+        sleep(15) #disable image showing on web manually
         
-    def get_tree(self, thisfontid, thisfont):
+    def get_tree(self, thisfontid, thisfont, iters = 1):
         self.tree[thisfontid] = []
         self.browser.find_element_by_xpath('//*[@id="XiaozhuanParts"]').clear()
-        self.browser.find_element_by_xpath('//*[@id="XiaozhuanParts"]').send_keys(thisfont)
+        self.browser.find_element_by_xpath('//*[@id="XiaozhuanParts"]').send_keys(thisfont*iters)
         self.browser.find_element_by_xpath('//*[@id="Submit"]').click()
-        sleep(2)
+        sleep(1)
         page_info = self.browser.find_element_by_xpath('/html/body/table[2]/tbody/tr/td[3]/form/table[1]/tbody/tr/td').text
         page_info = page_info.split('／')[1].split('頁')[0]
         print("total pages: ", page_info)  
         for i in range(int(page_info)):
             print("parsing page: ", i+1)
-            sleep(2)
+            sleep(1)
             for tr_ in range(1, 11, 2):
                 for td_ in range(1, 21, 2):
                     #xpath = '[@id="HiddenFrom"]/div/table/tbody/tr[' + str(tr_) + ']/td[' + str(td_) + ']/a'
@@ -77,15 +77,62 @@ class Crawler():
                self.browser.find_element_by_xpath('//*[@id="PageLink' + str(i + 2) + '"]').click()#change page
             
                     
-crl = Crawler()
-df = pd.read_csv('../db/dbimg.csv')
-count = 1
-thisfontid_map_font = pd.Series(df.楷書字型.values,index=df.字體編號).to_dict()
-for k,v in thisfontid_map_font.items():
-    print(k,v,count)
-    crl.get_tree(k,v)
-    
-    with open('../db/dbtree.json', 'w') as f:
-        json.dump(crl.tree, f)
 
-    count += 1
+with open('../db/dbtree.json', 'r') as f:
+    parsed = json.load(f)
+crl = Crawler()
+#print(crl.tree)
+thisiter = len(parsed) # find x-fold results
+df = pd.read_csv('../db/dbimg.csv')
+count = len(parsed[-1])
+crl.tree = parsed[-1]
+print(crl.tree)
+fontid_map_font = pd.Series(df.楷書字型.values,index=df.字體編號).to_dict()
+while(True):
+    doparse = False;
+    for k,v in fontid_map_font.items():
+        try:
+            print(k,v,count)
+        except:
+            print(k, "no value")
+            continue
+        if k in crl.tree:
+            print(k,"done")
+            doparse = True;
+            continue
+        #----- can parse line
+        if thisiter >= 2:
+            if k not in parsed[-2]:
+                print(k,"skipped")
+                count += 1
+                continue
+            if len(parsed[-2][k]) == 0: #exhausted, no need to crawl further
+                print(k,"skipped no match")
+                count += 1
+                continue
+            if len(parsed[-2][k]) == 1 and parsed[-2][k][0] == k:
+                print(k,"skipped only self match")
+                count += 1
+                continue
+        #----- parsed line
+        try:
+            crl.get_tree(k,v,thisiter)
+        except:
+            print(k, "no result")
+            continue
+        doparse = True;
+        if not count % 100:
+            parsed[-1] = crl.tree
+            with open('../db/dbtree.json', 'w') as f:
+                json.dump(parsed, f)
+
+        count += 1
+    parsed[-1] = crl.tree
+    with open('../db/dbtree.json', 'w') as f:
+        json.dump(parsed, f)
+    if not doparse: # maximum iteration reached
+        break;
+    thisiter += 1
+    parsed.append({})
+    crl.tree = {}
+    count = 0
