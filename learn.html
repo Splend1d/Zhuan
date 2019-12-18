@@ -11,7 +11,7 @@
         var str_url = window.location.href;
         var this_url = new URL(str_url);
         var query = this_url.searchParams.get("query");
-        
+
         function GenerateTable(query,ischild) {
             //Build an array containing Customer records.
             if (ischild)
@@ -19,23 +19,28 @@
             else
                 thismap = zhuan_map_parent;
             var pics = new Array();
+            if (!(query in thismap))
+                thismap[query] = new Array();
             for (var i = 0; i < thismap[query].length; i+=5) {
                 var row_data = thismap[query].slice(i,i+5);
+
                 pics.push(row_data);
             }
-            
+
             //Create a HTML Table element.
             var table = document.createElement("TABLE");
             table.border = "0";
-     
+
             //Get the count of columns.
-            var columnCount = pics[0].length;
             //Add the data rows.
-            for (var i = 0; i < pics.length/5; i++) {
+            for (var i = 0; i < pics.length; i++) {
                 row = table.insertRow(-1);
+                row.style["white-space"] = "nowrap";
                 row.align="center";
-                for (var j = 0; j < columnCount; j++) {
+                for (var j = 0; j < pics[i].length; j++) {
                     var cell = row.insertCell(-1);
+                    cell.style["display"] = "inline-block";
+                    cell.style["padding"] = "20px";
                     var img_inc = document.createElement("img");
                     img_inc.src = "./assets/db/img/"+pics[i][j]+".png";
                     img_inc.alt = pics[i][j];
@@ -95,14 +100,14 @@
             setTimeout(adjust_padding, 100);
         }
         function random_word(){
-            
+
             while(true) {
                 var randomIndex = Math.floor(Math.random() * Object.keys(kai_dict).length);
                 var thiskey = "";
                 for (var key in kai_dict) {
                     // check if the property/key is defined in the object itself, not in parent
-                    
-                    if (kai_dict.hasOwnProperty(key)) {           
+
+                    if (kai_dict.hasOwnProperty(key)) {
                         randomIndex -= 1;
                     } else {
                         continue;
@@ -130,16 +135,16 @@
             goto_word(query_img);
         }
     </script>
-    <!--style="border-color:#ff3366;border-width: 5px; border-style: solid;" for debugging div--> 
+    <!--style="border-color:#ff3366;border-width: 5px; border-style: solid;" for debugging div-->
     <header id="header" class="alt">
 
         <div class="logo"><a href="index.html">篆來篆去</a></div>
         <div align="right" style="width: 15%; display: inline-block; ">
             <button id="btn_fuzzy" onclick="random_word()" style="background-color: Transparent; border:none;font-size: 16px">人 生 好 難</button>
-            
+
         </div>
         <div align="center" style="width: 10%; display: inline-block; ">
-            <input id="query" type="text" style=" text-align: center; border-color: white;border-width: 1px;"></input>  
+            <input id="query" type="text" style=" text-align: center; border-color: white;border-width: 1px;"></input>
         </div>
         <div align="left" style="width: 25%; display: inline-block; ">
             <button id="btn_search" onclick="find_word()" style="background-color: Transparent; border:none;font-size: 16px">搜 尋</button>
@@ -148,9 +153,9 @@
         <div align="right" style="width: 20%; display: inline-block; ">
             <a href="#menu" ><span > Menu </span></a>
         </div>
-        
-            
-        
+
+
+
     </header>
 
     <!-- Nav -->
@@ -161,12 +166,12 @@
             <li><a href="index.html#two">開始學習</a></li>
         </ul>
     </nav>
-                
+
     <section id="post" class="wrapper bg-img" data-bg="banner8.jpeg" style="padding-bottom: 120px">
         <div id="canvas" class="inner" >
-        
+
             <article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 20px 10px;">
-                
+
                 <!--div style = "float: left;"><a href="game_character.html" style =""><button style = "float: left;">回遊戲選單</button></a></div>
                 <div id = "btn_next_div" style = "float: right;">
                     <button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
@@ -188,9 +193,9 @@
                 <div id="pic_zhuan_child" align="center"></div>
                 <div id = "zhuan_parent" style="font-size: 24px;"></div>
                 <div id="pic_zhuan_parent" align="center"></div>
-                
+
             </article>
-        
+
         </div>
     </section>
     <script type="text/javascript">
@@ -211,7 +216,7 @@
         function canvas_clear(){
             var canvas = document.getElementById("canvas");
             canvas.innerHTML = String.raw `<article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 10px;"><div style = "float: left;"><a href="game_character.html" style =""><button style = "float: left;">回遊戲選單</button></a></div><div id = "btn_next_div" style = "float: right;"><button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button></div><div><p id="now_q_idx" align="center"></p></div><div><img id="pic_zhuan" src="" alt = "" width="27.5%"><img id="pic_kai" src="" alt = "" width="27.5%"></div><div id = "debugger"></div><div id = "zhuan_def" style="font-size: 24px;"></div><div id = "zhuan_main" style="font-size: 24px;"></div></article>`;
-            
+
         }
         function hover(element) {
           element.setAttribute('src', "./assets/db/img/"+zhuan_map_kai[element.alt]+".png");
@@ -219,7 +224,7 @@
         function unhover(element) {
           element.setAttribute('src', "./assets/db/img/"+element.alt+".png");
         }
-        
+
     </script>
             <!-- Scripts -->
     <script src="assets/js/jquery.min.js"></script>
