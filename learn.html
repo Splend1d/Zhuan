@@ -11,6 +11,48 @@
         var str_url = window.location.href;
         var this_url = new URL(str_url);
         var query = this_url.searchParams.get("query");
+        
+        function GenerateTable(query,ischild) {
+            //Build an array containing Customer records.
+            if (ischild)
+                thismap = zhuan_map_child;
+            else
+                thismap = zhuan_map_parent;
+            var pics = new Array();
+            for (var i = 0; i < thismap[query].length; i+=5) {
+                var row_data = thismap[query].slice(i,i+5);
+
+                pics.push(row_data);
+            }
+            
+            //Create a HTML Table element.
+            var table = document.createElement("TABLE");
+            table.border = "0";
+     
+            //Get the count of columns.
+            var columnCount = pics[0].length;
+            //Add the data rows.
+            for (var i = 0; i < pics.length/5; i++) {
+                row = table.insertRow(-1);
+                row.align="center";
+                for (var j = 0; j < columnCount; j++) {
+                    var cell = row.insertCell(-1);
+                    var img_inc = document.createElement("img");
+                    img_inc.src = "./assets/db/img/"+pics[i][j]+".png";
+                    img_inc.alt = pics[i][j];
+                    img_inc.style = "height:100px;width:100px;";
+                    img_inc.onclick = function() {goto_word(this.alt);};
+                    cell.appendChild(img_inc);
+            }
+        }
+        if (ischild)
+            var dvTable = document.getElementById("pic_zhuan_child");
+        else
+            var dvTable = document.getElementById("pic_zhuan_parent");
+        dvTable.innerHTML = "";
+        dvTable.appendChild(table);
+    }
+
         function find_word(){
             var thiskey = document.getElementById("query").value;
             if (thiskey.length == 0) {
@@ -32,17 +74,26 @@
                 adjust_padding();
                 return;
             }
+            goto_word(query_img);
+        }
+        function goto_word(query_img){
+            //alert(query_img)
             document.getElementById("pic_zhuan").src = "./assets/db/img/"+query_img+".png";
-            document.getElementById("pic_zhuan").alt = thiskey;
+            document.getElementById("pic_zhuan").alt = query_img;
             document.getElementById("pic_kai").src = "./assets/db/img/"+zhuan_map_kai[query_img]+".png";
-            document.getElementById("pic_kai").alt = thiskey;
+            document.getElementById("pic_kai").alt = zhuan_map_kai[query_img];
             //document.getElementById("debugger").innerHTML = thiskey.length.toString();
             document.getElementById("zhuan_def").innerHTML = zhuan_map_def[query_img];
-            document.getElementById("zhuan_main").innerHTML = zhuan_map_main[query_img];
+            document.getElementById("zhuan_main").innerHTML = "部首";
+            document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+kai_dict[zhuan_map_main[query_img][3]]+".png";
+            document.getElementById("pic_zhuan_main").alt = kai_dict[zhuan_map_main[query_img][3]];
+            document.getElementById("zhuan_child").innerHTML = "子部件";
+            document.getElementById("zhuan_parent").innerHTML = "衍生字";
+            GenerateTable(query_img,true);
+            GenerateTable(query_img,false);
             //adjust padding
             setTimeout(adjust_padding, 100);
         }
-        find_word();
         function random_word(){
             
             while(true) {
@@ -76,23 +127,7 @@
                     break;
                 }
             }
-            
-            document.getElementById("pic_zhuan").src = "./assets/db/img/"+query_img+".png";
-            document.getElementById("pic_zhuan").alt = thiskey;
-            document.getElementById("pic_kai").src = "./assets/db/img/"+zhuan_map_kai[query_img]+".png";
-            document.getElementById("pic_kai").alt = thiskey;
-            //document.getElementById("debugger").innerHTML = thiskey.length.toString();
-            document.getElementById("zhuan_def").innerHTML = zhuan_map_def[query_img];
-            document.getElementById("zhuan_main").innerHTML = zhuan_map_main[query_img];
-            //adjust padding
-            setTimeout(adjust_padding, 100);
-            // var wheight = window.innerHeight;
-            // var heading = document.getElementById("post");
-            // var canvas = document.getElementById("canvas");
-            // var eheight = canvas.clientHeight;
-            // var to_pad = wheight - eheight - 160;
-            // var to_pad_str = to_pad.toString()+"px";
-            // heading.style["padding-bottom"] = to_pad_str;
+            goto_word(query_img);
         }
     </script>
     <!--style="border-color:#ff3366;border-width: 5px; border-style: solid;" for debugging div--> 
@@ -144,8 +179,15 @@
                     <img id="pic_kai" src="" alt = "" width="27.5%">
                 </div>
                 <div id = "debugger"></div>
-                <div id = "zhuan_def" style="font-size: 24px;"></div>
+                <div id = "zhuan_def" style="font-size: 40px;"></div>
                 <div id = "zhuan_main" style="font-size: 24px;"></div>
+                <div>
+                    <img id="pic_zhuan_main" src="" alt = "" width="27.5%" onclick = "goto_word(this.alt)" style = "height:100px;width:100px;">
+                </div>
+                <div id = "zhuan_child" style="font-size: 24px;"></div>
+                <div id="pic_zhuan_child" align="center"></div>
+                <div id = "zhuan_parent" style="font-size: 24px;"></div>
+                <div id="pic_zhuan_parent" align="center"></div>
                 
             </article>
         
@@ -163,6 +205,7 @@
                 to_pad = 120;
             var to_pad_str = to_pad.toString()+"px";
             heading.style["padding-bottom"] = to_pad_str;
+            window.scrollTo(0,0);
         }
         adjust_padding();
 
@@ -183,6 +226,7 @@
     <script src="assets/js/main.js"></script>
     <script src = "./assets/db/db.js"></script>
     <script src = "./assets/db/dblearn.js"></script>
+    <script src = "./assets/db/dblearntree.js"></script>
 
 </body>
 </html>
