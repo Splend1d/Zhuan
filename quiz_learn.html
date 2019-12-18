@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW" >
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
     <title>Guess that Zhuan</title>
     <link rel="stylesheet" href="assets/css/main.css" />
     <script src = "./assets/db/db.js"></script>
@@ -17,9 +17,9 @@
         var level = this_url.searchParams.get("level");
         if (!level) {
             level = 1;
-        } 
-        var this_q_idx = 1 + (level-1) * 100;
-        
+        }
+        var this_q_idx = 25 + (level-1) * 100;
+
         function GenerateTable(query,ischild) {
             //Build an array containing Customer records.
             if (ischild)
@@ -34,11 +34,11 @@
 
                 pics.push(row_data);
             }
-            
+
             //Create a HTML Table element.
             var table = document.createElement("TABLE");
             table.border = "0";
-     
+
             //Get the count of columns.
             //Add the data rows.
             for (var i = 0; i < pics.length; i++) {
@@ -67,8 +67,8 @@
         dvTable.appendChild(table);
     }
 
-        
-        function goto_word(query_img){
+
+        function goto_word(query_img,kai_qidx){
             //alert(query_img)
 
             document.getElementById("pic_zhuan").src = "./assets/db/img/"+query_img+".png";
@@ -76,10 +76,12 @@
             document.getElementById("pic_kai").src = "./assets/db/img/"+zhuan_map_kai[query_img]+".png";
             document.getElementById("pic_kai").alt = zhuan_map_kai[query_img];
             //document.getElementById("debugger").innerHTML = thiskey.length.toString();
-            document.getElementById("zhuan_def").innerHTML = zhuan_map_def[query_img];
+
+            document.getElementById("zhuan_def").innerHTML = kai_def[kai_qidx].split("@").join(kai_ans[kai_qidx]);
             document.getElementById("zhuan_main").innerHTML = "部首";
-            document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+kai_dict[zhuan_map_main[query_img][3]]+".png";
-            document.getElementById("pic_zhuan_main").alt = kai_dict[zhuan_map_main[query_img][3]];
+            document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+kai_dict[kai_part[kai_qidx][3]]+".png";
+            //alert(kai_part[kai_qidx][3].hexEncode());
+            document.getElementById("pic_zhuan_main").alt = kai_dict[kai_part[kai_qidx][3]];
             document.getElementById("zhuan_child").innerHTML = "子部件";
             document.getElementById("zhuan_parent").innerHTML = "衍生字";
             GenerateTable(query_img,true);
@@ -91,29 +93,29 @@
         function gen_q(inc) {
             if (this_q_idx % 100 == 0 && ! inc)
                 return;
-            else if (this_q_idx % 100 == 99 && inc) 
+            else if (this_q_idx % 100 == 99 && inc)
                 return;
             if(inc)
                 this_q_idx += 1;
             else
                 this_q_idx -= 1;
-            
-            document.getElementById("now_q_idx").innerHTML = (this_q_idx)%100+1 + "/100";
-            goto_word(kai_qidx[this_q_idx]);
+
+            document.getElementById("now_q_idx").innerHTML = (this_q_idx) % 100 + 1 + "/100";
+            goto_word(kai_qidx[this_q_idx],this_q_idx);
         }
-        
+
     </script>
-    <!--style="border-color:#ff3366;border-width: 5px; border-style: solid;" for debugging div--> 
+    <!--style="border-color:#ff3366;border-width: 5px; border-style: solid;" for debugging div-->
     <header id="header" class="alt">
 
         <div class="logo"><a href="index.html">篆來篆去</a></div>
-        
+
         <div align="right" style="width: 20%; display: inline-block; ">
             <a href="#menu" ><span > Menu </span></a>
         </div>
-        
-            
-        
+
+
+
     </header>
 
     <!-- Nav -->
@@ -124,12 +126,12 @@
             <li><a href="index.html#two">開始學習</a></li>
         </ul>
     </nav>
-                
+
     <section id="post" class="wrapper bg-img" data-bg="banner8.jpeg" style="padding-bottom: 120px">
         <div id="canvas" class="inner" >
-        
+
             <article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 20px 10px;">
-                
+
                 <div id = "btn_last_div" style = "float: left;">
                     <button type="button" style = "float: left;" id="btn_next" onclick="gen_q(false)" >上一題</button>
                 </div>
@@ -154,7 +156,7 @@
                 <div id="pic_zhuan_parent" align="center"></div>
                 <div id = "btn_menu" align="center"><a href="game_character.html" style =""><button>回遊戲選單</button></a></div>
             </article>
-        
+
         </div>
     </section>
     <script type="text/javascript">
@@ -176,7 +178,7 @@
         function canvas_clear(){
             var canvas = document.getElementById("canvas");
             canvas.innerHTML = String.raw `<article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 10px;"><div style = "float: left;"><a href="game_character.html" style =""><button style = "float: left;">回遊戲選單</button></a></div><div id = "btn_next_div" style = "float: right;"><button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button></div><div><p id="now_q_idx" align="center"></p></div><div><img id="pic_zhuan" src="" alt = "" width="27.5%"><img id="pic_kai" src="" alt = "" width="27.5%"></div><div id = "debugger"></div><div id = "zhuan_def" style="font-size: 24px;"></div><div id = "zhuan_main" style="font-size: 24px;"></div></article>`;
-            
+
         }
 
         function hover(element) {
@@ -186,8 +188,30 @@
         function unhover(element) {
           element.setAttribute('src', "./assets/db/img/"+element.alt+".png");
         }
-        
-        gen_q(false);
+        String.prototype.hexEncode = function(){
+            var hex, i;
+
+            var result = "";
+            for (i=0; i<this.length; i++) {
+                hex = this.charCodeAt(i).toString(16);
+                result += ("000"+hex).slice(-4);
+            }
+
+            return result;
+        }
+
+        String.prototype.hexDecode = function(){
+            var j;
+            var hexes = this.match(/.{1,4}/g) || [];
+            var back = "";
+            for(j = 0; j<hexes.length; j++) {
+                back += String.fromCharCode(parseInt(hexes[j], 16));
+            }
+
+            return back;
+        }
+
+            gen_q(false);
     </script>
             <!-- Scripts -->
     <script src="assets/js/jquery.min.js"></script>
@@ -196,7 +220,7 @@
     <script src="assets/js/skel.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
-    
+
 
 </body>
 </html>
