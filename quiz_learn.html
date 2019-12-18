@@ -18,7 +18,7 @@
         if (!level) {
             level = 1;
         }
-        var this_q_idx = 25 + (level-1) * 100;
+        var this_q_idx = 1 + (level-1) * 100;
 
         function GenerateTable(query,ischild) {
             //Build an array containing Customer records.
@@ -41,6 +41,8 @@
 
             //Get the count of columns.
             //Add the data rows.
+
+            
             for (var i = 0; i < pics.length; i++) {
                 row = table.insertRow(-1);
                 row.style["white-space"] = "nowrap";
@@ -53,7 +55,9 @@
                     img_inc.src = "./assets/db/img/"+pics[i][j]+".png";
                     img_inc.alt = pics[i][j];
                     img_inc.style = "height:100px;width:100px;";
-                    img_inc.onclick = function() {goto_word(this.alt);};
+                    const isEqual = (element) => element == pics[i][j];
+                    var k = kai_qidx.findIndex(isEqual);
+                    img_inc.onclick = function() {goto_word(this.alt,k);};
                     img_inc.onmouseover = function() {hover(this);};
                     img_inc.onmouseout = function() {unhover(this);};
                     cell.appendChild(img_inc);
@@ -69,19 +73,26 @@
 
 
         function goto_word(query_img,kai_qidx){
-            //alert(query_img)
 
             document.getElementById("pic_zhuan").src = "./assets/db/img/"+query_img+".png";
             document.getElementById("pic_zhuan").alt = query_img;
             document.getElementById("pic_kai").src = "./assets/db/img/"+zhuan_map_kai[query_img]+".png";
             document.getElementById("pic_kai").alt = zhuan_map_kai[query_img];
             //document.getElementById("debugger").innerHTML = thiskey.length.toString();
-
-            document.getElementById("zhuan_def").innerHTML = kai_def[kai_qidx].split("@").join(kai_ans[kai_qidx]);
+            if (kai_qidx >= 0) {
+                document.getElementById("zhuan_def").innerHTML = kai_def[kai_qidx].split("@").join(kai_ans[kai_qidx]);
+                
+                document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+kai_dict[kai_part[kai_qidx][3]]+".png";
+                //alert(kai_part[kai_qidx][3].hexEncode());
+                document.getElementById("pic_zhuan_main").alt = kai_dict[kai_part[kai_qidx][3]];
+            } else {
+                document.getElementById("zhuan_def").innerHTML = zhuan_map_def[query_img];
+                document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+kai_dict[zhuan_map_main[query_img][3]]+".png";
+                document.getElementById("pic_zhuan_main").alt = kai_dict[zhuan_map_main[query_img][3]];
+                //alert(zhuan_map_main[query_img]);
+            }
+                
             document.getElementById("zhuan_main").innerHTML = "部首";
-            document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+kai_dict[kai_part[kai_qidx][3]]+".png";
-            //alert(kai_part[kai_qidx][3].hexEncode());
-            document.getElementById("pic_zhuan_main").alt = kai_dict[kai_part[kai_qidx][3]];
             document.getElementById("zhuan_child").innerHTML = "子部件";
             document.getElementById("zhuan_parent").innerHTML = "衍生字";
             GenerateTable(query_img,true);

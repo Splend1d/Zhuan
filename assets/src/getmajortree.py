@@ -1,9 +1,3 @@
-# do getfont2.py and getimg.py first
-import sys
-import os
-import pandas as pd
-import json
-from time import sleep as sleep
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import WebDriverException
@@ -75,72 +69,9 @@ class Crawler():
                     
             if (i + 1 != int(page_info)):
                self.browser.find_element_by_xpath('//*[@id="PageLink' + str(i + 2) + '"]').click()#change page
-               sleep(1)
-            
-                    
 
-with open('../db/dbtree2.json', 'r') as f:
-    parsed = json.load(f)
-crl = Crawler()
-#print(crl.tree)
-thisiter = len(parsed) # find x-fold results
-df = pd.read_csv('../db/dbimg.csv')
-if thisiter:
-    count = len(parsed[-1])
-    crl.tree = parsed[-1]
-    print(crl.tree)
-else:
-    count = 0
-    thisiter = 1
-    parsed.append({})
-fontid_map_font = pd.Series(df.楷書字型.values,index=df.字體編號).to_dict()
-while(True):
-    doparse = False;
-    for k,v in fontid_map_font.items():
-        try:
-            print(k,v,count)
-        except:
-            print(k, "no value")
-            continue
-        if k in crl.tree:
-            print(k,"done")
-            doparse = True;
-            count += 1
-            continue
-        #----- can parse line
-        if thisiter >= 2:
-            if k not in parsed[-2]:
-                print(k,"skipped")
-                count += 1
-                continue
-            if len(parsed[-2][k]) == 0: #exhausted, no need to crawl further
-                print(k,"skipped no match")
-                count += 1
-                continue
-            if len(parsed[-2][k]) == 1 and parsed[-2][k][0] == k:
-                print(k,"skipped only self match")
-                count += 1
-                continue
-        #----- parsed line
-        try:
-            crl.get_tree(k,v,thisiter)
-        except:
-            #print(k, "no result")
-            count += 1
-            continue
-        doparse = True;
-        if not count % 100:
-            parsed[-1] = crl.tree
-            with open('../db/dbtree2.json', 'w') as f:
-                json.dump(parsed, f)
-
-        count += 1
-    parsed[-1] = crl.tree
-    with open('../db/dbtree2.json', 'w') as f:
-        json.dump(parsed, f)
-    if not doparse: # maximum iteration reached
-        break;
-    thisiter += 1
-    parsed.append({})
-    crl.tree = {}
-    count = 0
+with open("../db/dbmajors.pkl","wb") as f:
+    majors = pkl.load(f)
+majors = list(majors.keys())
+print(majors)
+s()
