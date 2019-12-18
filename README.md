@@ -13,6 +13,8 @@ https://splend1d.github.io/Zhuan/
 
 建議下載擴充字典for說文
 
+說文‧疋部 
+
 --------------
 
 [later]
