@@ -9,17 +9,31 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/challengeButton.css">
         <style>
-             .button.backhome
-             { position: relative; top: 20px; left: 10px;}
+			button {
+				background-color: transparent;
+			}
+            .button.backhome
+			{ position: relative; top: 20px; left: 10px;}
+			.column {
+            background-color: transparent;
+            background-size: 100%;
+            width:33.33%;
+            background-attachment: fixed;
+            float: left;
+			text-align: center;
+			padding-bottom: 10px;
+            height: auto;
+            text-align: center;
+			}
         </style>
 	</head>
 	<body class="subpage">
 
 		<!-- Header -->
-			<header id="header" class="alt">
+		<header id="header">
+			<div class="logo"><a href="index.html">篆來篆去</a></div>
 			<a href="#menu"><span>Menu</span></a>
-			</header>
-
+		</header>
 		<!-- Nav -->
 			<nav id="menu">
 				<ul class="links">
@@ -44,7 +58,7 @@
 						</header>
 						<div class="row" style="margin: 0 auto;">
 							<div class="column" style="padding-left: 0px;">
-									<div><a href="#"><button  data-hover="挑戰!"><p>第 1 關</p></button></a></div>
+								<div><a href="#"><button  data-hover="挑戰!"><p>第 1 關</p></button></a></div>
 							</div>
 							<div class="column" style="padding-left: 0px;">
 								<div><a href="#"><button  data-hover="挑戰!"><p>第 2 關</p></button></a></div>
