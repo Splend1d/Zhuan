@@ -3,17 +3,21 @@
 
 <html>
 	<head>
-		<title>篆來篆去-部件學習</title>
+		<title>部件學習</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/challengeButton.css">
         <style>
 			button {
-				background-color: transparent;
+				background-color: rosybrown;
 			}
-            .button.backhome
-			{ position: relative; top: 20px; left: 10px;}
+            .button.back { 
+				margin-top: 30px;
+			    top: 20px;
+			    left: 10px;
+			}
+
 			.column {
             background-color: transparent;
             background-size: 100%;
@@ -30,7 +34,7 @@
 	<body class="subpage">
 
 		<!-- Header -->
-		<header id="header">
+		<header id="header" class="alt">
 			<div class="logo"><a href="index.html">篆來篆去</a></div>
 			<a href="#menu"><span>Menu</span></a>
 		</header>
@@ -51,36 +55,33 @@
 		-->
 			<section id="post" class="wrapper bg-img" data-bg="banner2.jpg">
 				<div class="inner">
-					<article class="box">
-						<header>
+					<article class="box" style="padding-bottom: 30px;">
+						<header align="center">
 							<h2>部件學習</h2>
 							<p style="font-weight: bold;">題目有四個小篆字型，請您觀察它們共同的偏旁或部件，輸入其現代漢字寫法</p>
 						</header>
 						<div class="row" style="margin: 0 auto;">
 							<div class="column" style="padding-left: 0px;">
-								<div><a href="#"><button  data-hover="挑戰!"><p>第 1 關</p></button></a></div>
+								<p style="color: white; font-weight: bold;">請找出題目四個字中共同的部首</p>
+								<div><a href="#"><button  data-hover="挑戰!"><p>找 部 首</p></button></a></div>
 							</div>
 							<div class="column" style="padding-left: 0px;">
-								<div><a href="#"><button  data-hover="挑戰!"><p>第 2 關</p></button></a></div>
+								<p style="color: white; font-weight: bold;">請找出題目四個字中的兩個共同部件</p>
+								<div><a href="#"><button  data-hover="挑戰!"><p>兩 部 件</p></button></a></div>
 							</div>
 							<div class="column" style="padding-left: 0px;">
-								<div><a href="#"><button  data-hover="挑戰!"><p>第 3 關</p></button></a></div>
+								<p style="color: white; font-weight: bold;">請找出題目四個字中的三個共同部件</p>
+								<div><a href="#"><button  data-hover="挑戰!"><p>三 部 件</p></button></a></div>
 						    </div>
 
                         </div>
                         
 
-						<footer>
-							<ul class="actions">
-                                <li><a href="index.html" class="button backhome">Home</a></li>
-                                <style>.button.backhome{ background: #CD5C5C;position:absolute; top:70%; left:50%;}
-                                </style>
-								
-							</ul>
+						<footer class="actions" align="center">
+                            <a href="index.html#two" class="button back">回遊戲選單</a>	
 						</footer>
 					</article>
 				</div>
-
 		</section>
 
 	
