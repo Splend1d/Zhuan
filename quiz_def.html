@@ -147,7 +147,7 @@
         dvTable.appendChild(table);
     }
         function submit_ans() {
-            var b = btn_submit.value;
+            var b = user_input.value;
             if (b == kai_ans[this_char_idx]) {
                 document.getElementById("str_res").innerHTML = "答案正確！";
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
@@ -160,34 +160,55 @@
                 document.getElementById("str_res").innerHTML = "答案不正確！";
 
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
-                //document.getElementById("btn_submit_div").innerHTML = "";
-                //document.getElementById("btn_submit_div").style.display = "none";
+                //document.getElementById("user_input_div").innerHTML = "";
+                //document.getElementById("user_input_div").style.display = "none";
             }
         }
+        var hinted = false;
         function show_hint() {
+            if (hinted)
+                return;
             var images = document.getElementById('t0').getElementsByTagName('img');
             //alert(images.length);
             for (var k = 0;k < images.length; k++) {
                 images[k].src = "./assets/db/img/"+zhuan_map_kai[images[k].alt]+".png";
                 images[k].alt = zhuan_map_kai[images[k].alt];
             }
+            hinted = true;
             // alert(images.length);
         }
         function show_ans() {
+            window.scrollTo(0,0);
+            show_hint();
+            var tds = document.getElementById('t0').getElementsByTagName('td');
+            var a = zhuan_map_kai[kai_qidx[this_char_idx]];
+            var changeHTML = '<img src="./assets/db/img/'+a+'.png" alt="'+a+'" style="height: 100px; width: 100px;">'
+            for (var t = 0; t < tds.length; t++) {
+                if (tds[t].innerHTML == '@') {
+                    tds[t].innerHTML = changeHTML;
+                    tds[t].style.border = "1px solid black;";
+                }
+            }
+
             document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];
-            document.getElementById("btn_next_div").style.visibility = ""; //show next button
+            document.getElementById("btn_next").disabled = ""; //show next button
+            document.getElementById("btn_submit").disabled = "true";
         }
 
         function gen_q() {
+            hinted = false;
             this_q_idx += 1;
             this_char_idx = random_idx_ls[this_q_idx] + (level-1)*100;
             GenerateTable();
             document.getElementById("str_q").innerHTML = kai_def[this_char_idx];
             document.getElementById("pic_q").src = "./assets/db/img/"+kai_qidx[this_char_idx]+".png";
             document.getElementById("pic_q").alt = kai_qidx[this_char_idx];
-            document.getElementById("btn_submit_div").style.display = "";
+            document.getElementById("user_input_div").style.display = "";
             document.getElementById("str_res").innerHTML = ""//kai_qidx[this_char_idx];
-            document.getElementById("btn_next_div").style.visibility = "hidden";
+            document.getElementById("btn_next").disabled = "true";
+            document.getElementById("btn_submit").disabled = "";
+            document.getElementById("user_input").value = "";
+            window.scrollTo(0,0);
         }
     </script>
         			<header id="header" class="alt">
@@ -209,8 +230,8 @@
                                 <article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 10px;">
 
     <div><a href="game_character.html"><button style = "float: left;">回遊戲選單</button></a></div>
-    <div id = "btn_next_div" style="visibility:hidden;color:red;">
-        <button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
+    <div id = "btn_next_div"  style="color:red;">
+        <button type="button" disabled = "true" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
     </div>
     <div>
         <p id="now_q_idx" align="center"></p>
@@ -224,12 +245,12 @@
     <div>
         <p id="meassage_req" style="text-align: center; font-size: 12pt; font-weight: bold; margin: 0 0 0 0;">請輸入這個釋義的現代漢字：</p>
     </div>
-    <div id="btn_submit_div" align="center" >
+    <div id="user_input_div" align="center" >
         <!--input type="button" value="Generate Table" onclick="GenerateTable()" /-->
         <div align="center" style="padding-bottom: 10px;">
-            <input type="text" id="btn_submit" style="width: 30%; text-align: center;"/>
+            <input type="text" id="user_input" style="width: 30%; text-align: center;"/>
         </div>
-        <button onclick="submit_ans()">送出</button>
+        <button id="btn_submit" disabled = false onclick="submit_ans()">送出</button>
         <button id="btn_hint" onclick="show_hint()">當代眼藥水！</button>
         <button id="btn_show" onclick="show_ans()">公布答案</button>
     </div>
