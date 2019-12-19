@@ -14,6 +14,7 @@
 </head>
 <body align="center" onload = gen_q()>
 	<script src = "./assets/db/db.js"></script>
+    <script src = "./assets/db/dblearn.js"></script>
     <script>
         var str_url = window.location.href;
         var this_url = new URL(str_url);
@@ -91,6 +92,7 @@
             //Create a HTML Table element.
             var table = document.createElement("TABLE");
             table.border = "0";
+            table.id = "t0";
 
             //Get the count of columns.
             //var columnCount = pic_def[0].length;
@@ -123,12 +125,15 @@
                 for (var j = 0; j < pic_def[i].length; j++) {
                     var cell = row.insertCell(-1);
                     if (pic_def[i][j] == '') {
+                        //var img_inc = document.createElement("div");
                         cell.style = "font-size: 100px;"
                         cell.innerHTML = word_def[i][j];
+                        //cell.appendChild(img_inc);
                     } else {
                         var img_inc = document.createElement("img");
                         img_inc.src = "./assets/db/img/"+pic_def[i][j]+".png";
-                        img_inc.style = "height:100px;width:100px;display:inline-block";
+                        img_inc.alt = pic_def[i][j];
+                        img_inc.style = "height:100px;width:100px;";
                         cell.appendChild(img_inc);
                     }
 
@@ -159,9 +164,15 @@
                 //document.getElementById("btn_submit_div").style.display = "none";
             }
         }
-        // function show_hint() {
-        //     document.getElementById("str_res").innerHTML = kai_def[this_char_idx];
-        // }
+        function show_hint() {
+            var images = document.getElementById('t0').getElementsByTagName('img');
+            //alert(images.length);
+            for (var k = 0;k < images.length; k++) {
+                images[k].src = "./assets/db/img/"+zhuan_map_kai[images[k].alt]+".png";
+                images[k].alt = zhuan_map_kai[images[k].alt];
+            }
+            // alert(images.length);
+        }
         function show_ans() {
             document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];
             document.getElementById("btn_next_div").style.visibility = ""; //show next button
@@ -219,6 +230,7 @@
             <input type="text" id="btn_submit" style="width: 30%; text-align: center;"/>
         </div>
         <button onclick="submit_ans()">送出</button>
+        <button id="btn_hint" onclick="show_hint()">當代眼藥水！</button>
         <button id="btn_show" onclick="show_ans()">公布答案</button>
     </div>
 
