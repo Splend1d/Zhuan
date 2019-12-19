@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import WebDriverException
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+import pickle as pkl
 class Crawler():
 
     def __init__(self):

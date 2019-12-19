@@ -1,0 +1,138 @@
+<html lang="zh-Hant-TW" >
+<head>
+    <meta charset="utf-8" />
+    <title>Guess that Zhuan</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body align="center" onload = gen_q()>
+	<script src = "./assets/db/db.js"></script>
+    <script src = "./assets/db/dbmajors.js"></script>
+    <script>
+        // var str_url = window.location.href;
+        // var this_url = new URL(str_url);
+        // var level = this_url.searchParams.get("level");
+        // if (!level)
+        //     level = 1;
+        //alert(level);
+        var this_q_idx = 0;
+        var this_ans = "";
+        var available_majors = select_major;
+        function submit_ans() {
+            var b = btn_submit.value;
+            if (b == fontid_map_font[this_ans]) {
+                document.getElementById("str_res").innerHTML = "答案正確！";
+                //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
+                //document.getElementById("btn_next_div").style.display = ""; 
+                setTimeout(function () { gen_q(); }, 1000);
+
+            }
+
+            else {
+                document.getElementById("str_res").innerHTML = "答案不正確！";
+                
+                //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
+                //document.getElementById("btn_submit_div").innerHTML = "";
+                //document.getElementById("btn_submit_div").style.display = "none";
+            }
+        }
+        function show_hint() {
+            document.getElementById("str_res").innerHTML = kai_def[this_char_idx];
+        }
+        function show_ans() {
+            document.getElementById("str_res").innerHTML = fontid_map_font[this_ans];
+            document.getElementById("btn_next_div").style.visibility = ""; //show next button
+        }
+
+        function gen_q() {
+            this_q_idx += 1;
+            do {
+                var rand_idx = Math.floor(Math.random() * available_majors.length);
+                this_ans = available_majors[rand_idx];
+                var n_photos = Math.floor((40 - this_q_idx)/10)+1;
+            } while(major_gen_q[this_ans].length < n_photos);      
+
+            for (var i = 0; i < 4; i ++) {
+                if (i < n_photos) {
+                    document.getElementById("pic_q"+(i+1).toString()).style["display"] = "";
+                    document.getElementById("pic_q"+(i+1).toString()).style["display"] = "";
+                    document.getElementById("pic_q"+(i+1).toString()).src = "./assets/db/img/"+major_gen_q[this_ans][i]+".png";
+                    document.getElementById("pic_q"+(i+1).toString()).alt = major_gen_q[this_ans][i];
+                } else {
+                    document.getElementById("pic_q"+(i+1).toString()).style["display"] = "none";
+                    document.getElementById("pic_q"+(i+1).toString()).style["display"] = "none";
+                }
+                
+            } 
+
+            var remove_major_after_use_to_implement_when_DB_is_ready;
+            // for(var i = 0; i < available_majors.length; i++){ 
+            //     if ( available_majors[i] === this_ans) {
+            //         available_majors.splice(i, 1); 
+            //         i--;
+            //     }
+            // }
+
+            document.getElementById("btn_submit_div").style.display = "";
+            document.getElementById("str_res").innerHTML = ""//kai_qidx[this_char_idx];
+            //-- DEBUG
+            document.getElementById("btn_next_div").style.visibility = "";//"hidden"; //hide next button
+        }
+    </script>
+	<header id="header" class="alt">
+        <div class="logo"><a href="index.html">篆來篆去</a></div>
+        <a href="#menu"><span>Menu</span></a>
+        </header>
+
+    <!-- Nav -->
+        <nav id="menu">
+            <ul class="links" style="text-align: left;">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="generic.html">作品詳介</a></li>
+                <li><a href="index.html#two">開始學習</a></li>
+            </ul>
+        </nav>
+
+        <section id="post" class="wrapper bg-img" data-bg="banner8.jpeg">
+            <div class="inner">
+                <article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 10px;">
+        
+                    <div><a href="game_character.html"><button style = "float: left;">回遊戲選單</button></a></div>
+                    <div id = "btn_next_div" style="visibility:hidden;">
+                        <button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
+                    </div>
+                    <div>
+                        <p id="now_q_idx" align="center"></p>
+                    </div>
+                    <div>
+                        <img id="pic_q1" src="" alt = "" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q2" src="" alt = "" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q3" src="" alt = "" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q4" src="" alt = "" width="27.5%" style = "height:150px;width:150px;">
+                    </div>
+                    <div>
+                        <p id="meassage_req" style="text-align: center; font-size: 12pt; font-weight: bold; margin: 0 0 0 0;">請輸入這個小篆文字的部首,或此部首其他的字：</p>
+                    </div>
+                    <!--style="visibility:hidden;width:50px;height:50px;"-->
+                    <div id="btn_submit_div">
+                        <div align="center" style="padding-bottom: 10px;">
+                            <input type="text" id="btn_submit" style="width: 30%; text-align: center;"/>
+                        </div>
+                        <button onclick="submit_ans()">送出</button>
+                        <!--button id="btn_hint" onclick="show_hint()">提示</button-->
+                        <button id="btn_show" onclick="show_ans()">公布答案</button>
+                    </div>
+
+                    <p id="str_res" style="padding: 10px; font-weight: bold; color: rgb(241, 81, 81);"></p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.scrolly.min.js"></script>
+        <script src="assets/js/jquery.scrollex.min.js"></script>
+        <script src="assets/js/skel.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+</body>
+</html>
