@@ -4,7 +4,7 @@
     <title>Guess that Zhuan</title>
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
-<body align="center" onload = gen_q()>
+<body align="center" onload = "greet()">
 	<script src = "./assets/db/db.js"></script>
     <script src = "./assets/db/dbmajors.js"></script>
     <script>
@@ -14,6 +14,9 @@
         // if (!level)
         //     level = 1;
         //alert(level);
+        function greet() {
+            document.getElementById("user_input_div").style.display = "none";
+        }
         var this_q_idx = 0;
         var this_ans = "";
         var available_majors = select_major;
@@ -47,7 +50,12 @@
             document.getElementById("btn_next").disabled = ""; //show next button
             document.getElementById("btn_submit").disabled = "true";
         }
-
+        function gen_q_1() {
+            document.getElementById("user_input_div").style.display = "";
+            document.getElementById("btn_ok").style.display = "none";
+            document.getElementById("meassage_ex").style.display = "none";
+            gen_q();
+        }
         function gen_q() {
             this_q_idx += 1;
             do {
@@ -105,19 +113,20 @@
 
                     <div><a href="game_character.html"><button style = "float: left;">回遊戲選單</button></a></div>
                     <div id = "btn_next_div">
-                        <button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
+                        <button type="button" disabled = true style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
                     </div>
                     <div>
-                        <p id="now_q_idx" style="font-size: 24px;" text-align="center"></p>
+                        <p id="now_q_idx" style="font-size: 24pt;" text-align="center">說明</p>
                     </div>
                     <div>
-                        <img id="pic_q1" src="" alt = "" width="27.5%" style = "height:150px;width:150px;">
-                        <img id="pic_q2" src="" alt = "" width="27.5%" style = "height:150px;width:150px;">
-                        <img id="pic_q3" src="" alt = "" width="27.5%" style = "height:150px;width:150px;">
-                        <img id="pic_q4" src="" alt = "" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q1" src="./assets/db/img/27.6DAA.png" alt = "27.6DAA" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q2" src="./assets/db/img/27.6CB3.png" alt = "27.6CB3" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q3" src="./assets/db/img/27.6ECE.png" alt = "27.6ECE" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q4" src="./assets/db/img/27.6CEB.png" alt = "27.6CEB" width="27.5%" style = "height:150px;width:150px;">
                     </div>
                     <div>
-                        <p id="meassage_req" style="text-align: center; font-size: 12pt; font-weight: bold; margin: 0 0 0 0;">請輸入這個小篆文字的部首,或此部首其他的字：</p>
+                        <p id="meassage_req" style="text-align: center; font-size: 24pt; font-weight: bold; margin: 0 0 0 0;">請輸入這些小篆文字的部首,或此部首其他的字</p>
+                        <p id="meassage_ex" style="text-align: center; font-size: 24pt; font-weight: bold; margin: 0 0 0 0;">如此題共同部首為水，可輸入水、清、涓等等</p>
                     </div>
                     <!--style="visibility:hidden;width:50px;height:50px;"-->
                     <div id="user_input_div">
@@ -127,7 +136,9 @@
                         <button id = "btn_submit" onclick="submit_ans()">送出</button>
                         <!--button id="btn_hint" onclick="show_hint()">提示</button-->
                         <button id="btn_show" onclick="show_ans()">公布答案</button>
+
                     </div>
+                    <button id="btn_ok" onclick="gen_q_1()">我了解了</button>
 
                     <p id="str_res" style="padding: 10px; font-size:24px; font-weight: bold; color: rgb(0,0,0);"></p>
                 </article>
