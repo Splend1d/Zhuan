@@ -162,6 +162,7 @@
                 images[k].alt = zhuan_map_kai[images[k].alt];
             }
             hinted = true;
+            document.getElementById("str_res").innerHTML = "";
             // alert(images.length);
         }
         var ansed = false;
@@ -180,6 +181,7 @@
             //document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];
             document.getElementById("btn_next").disabled = ""; //show next button
             document.getElementById("btn_submit").disabled = "true";
+            document.getElementById("str_res").innerHTML = "";
             ansed = true;
         }
 
@@ -242,17 +244,24 @@
             <input type="text" id="user_input" style="width: 40%; text-align :center;margin: 10px;display: inline-block;"/>
         </div>
         <div>
-            <button id="btn_submit" disabled = false onclick="submit_ans()">送出</button>
+            <button id="btn_submit" onclick="submit_ans()">送出</button>
             <button id="btn_hint" onclick="show_hint()">當代眼藥水！</button>
             <button id="btn_show" onclick="show_ans()">公布答案</button>
         </div>
     </div>
 
-    <p id="str_res" style="padding: 10px; font-weight: bold; color: rgb(0,0,0);"></p>
+    <p id="str_res" style="font-size :16pt;padding: 10px; font-weight: bold; color: rgb(0,0,0);"></p>
 					</article>
 				</div>
 			</section>
             		<!-- Scripts -->
+                    <script type="text/javascript">
+                    document.getElementById('user_input').onkeydown = function(e){
+                       if(e.keyCode == 13){
+                            submit_ans();// submit
+                       }
+                    };
+                    </script>
                     <script src="assets/js/jquery.min.js"></script>
                     <script src="assets/js/jquery.scrolly.min.js"></script>
                     <script src="assets/js/jquery.scrollex.min.js"></script>

@@ -37,7 +37,7 @@
 
         var random_idx_ls = shuffle(level_idx_ls);
         function submit_ans() {
-            var b = btn_submit.value;
+            var b = user_input.value;
             if (b == kai_ans[this_char_idx]) {
                 document.getElementById("str_res").innerHTML = "答案正確！";
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
@@ -50,8 +50,8 @@
                 document.getElementById("str_res").innerHTML = "答案不正確！";
 
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
-                //document.getElementById("btn_submit_div").innerHTML = "";
-                //document.getElementById("btn_submit_div").style.display = "none";
+                //document.getElementById("user_input_div").innerHTML = "";
+                //document.getElementById("user_input_div").style.display = "none";
             }
         }
         function show_hint() {
@@ -59,7 +59,7 @@
         }
         function show_ans() {
             document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];
-            document.getElementById("btn_next_div").style.disabled = true; //show next button
+            document.getElementById("btn_next").disabled = ""; //show next button
         }
 
         function gen_q() {
@@ -67,10 +67,11 @@
             this_char_idx = random_idx_ls[this_q_idx] + (level-1)*100;
             document.getElementById("pic_q").src = "./assets/db/img/"+kai_qidx[this_char_idx]+".png";
             document.getElementById("pic_q").alt = kai_qidx[this_char_idx];
-            document.getElementById("btn_submit_div").style.display = "";
+            document.getElementById("user_input_div").style.display = "";
             document.getElementById("str_res").innerHTML = ""//kai_qidx[this_char_idx];
-            document.getElementById("btn_next_div").disaabled = "true"; //hide next button
-            document.getElementById("btn_submit").value = "";
+            document.getElementById("user_input").value = "";
+            document.getElementById("btn_next").disabled = "true";
+            document.getElementById("btn_submit").disabled = "";
         }
     </script>
     			<header id="header" class="alt">
@@ -91,10 +92,10 @@
                         <div class="inner">
                             <article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 10px;">
 
-    <div><a href="game_character.html"><button style = "float: left;">回遊戲選單</button></a></div>
+    
     <div id = "btn_next_div">
     <div><a href="game_character.html"><button style = "float: left;">回關卡選單</button></a></div>
-    <div id = "btn_next_div" style="visibility:hidden;">
+    <div id = "btn_next_div" >
         <button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
     </div>
     <div>
@@ -107,12 +108,12 @@
         <p id="meassage_req" style="text-align: center; font-size: 12pt; font-weight: bold; margin: 0 0 0 0;">請輸入這個小篆文字的現代漢字寫法：</p>
     </div>
     <!--style="visibility:hidden;width:50px;height:50px;"-->
-    <div id="btn_submit_div">
+    <div id="user_input_div">
         <div align="center" style="padding-bottom: 10px;">
-            <input type="text" id="btn_submit" style="width: 30%; text-align: center;"/>
+            <input type="text" id="user_input" style="width: 30%; text-align: center;"/>
         </div>
-        <button onclick="submit_ans()">送出</button>
-        <button id="btn_hint" onclick="show_hint()">提示</button>
+        <button id="btn_submit"onclick="submit_ans()">送出</button>
+        <button id="btn_hint" onclick="show_hint()">碎字機!</button>
         <button id="btn_show" onclick="show_ans()">公布答案</button>
     </div>
 
@@ -122,6 +123,13 @@
 			</section>
 
             		<!-- Scripts -->
+            <script type="text/javascript">
+                document.getElementById('user_input').onkeydown = function(e){
+                   if(e.keyCode == 13){
+                        submit_ans();// submit
+                   }
+                };
+                </script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
