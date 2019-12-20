@@ -1,0 +1,24 @@
+DOCUMENTATION OF ALL CRAWLERS
+getALL:
+	-get_info:
+		usage:
+			gets the basic infos of each word
+		dependencies:
+			none
+		type:
+			dict of dicts (.pkl), key = zhuan_id
+		crawls:
+			zhuan_id, meaning, kai_font_id, zhuan_fontid
+		example entry:
+			9831: {'meaning': '《說文》：“亥，荄也。十月微陽起，接盛陰。从𠄞，𠄞，古文上字，一人男，一人女也。从乙，象褢子咳咳之形。《春秋傳》曰：‘亥有二首六身’。 𢁓，古文。亥為豕，與豕同。亥而生子，復從一起。”', 'fonts': ['&0.4EA5;', '&1.F50B;', '&27.4EA5;', '&28.E808;']}
+	-get_major_coverage:
+		usage:
+			gets the coverage of each major part
+		type:
+			dict of list (.pkl), key = kai_font
+		dependencies:
+			none
+		crawls:
+			min_zhuan_id, max_zhuan_id
+		example entry:
+			'田': ['9123', '9151']
