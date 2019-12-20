@@ -1,7 +1,7 @@
 <html lang="zh-Hant-TW" >
 <head>
     <meta charset="utf-8" />
-    <title>速成開天眼 - 單字學習 | 篆來篆去</title>
+    <title>古代練功坊 - 單字學習 | 篆來篆去</title>
     <link rel="stylesheet" href="assets/css/main.css" />
     <style>
     table > tbody > tr > td {
@@ -60,31 +60,12 @@
 
                 //for (var i = 0; i < kai_ans.length; i++){
                 for (var j = 0; j < cols; j++) {
+                    if (row_data[j] == "@")
+                        row_data_idx[j] = "@";
                     if (!(row_data[j] in kai_dict))
                         continue;
                     row_data_idx[j] = kai_dict[row_data[j]];
                 }
-                    // if (kai_ans[j] == row_data[0]) {
-                    //     //alert("a");
-                    //     row_data_idx[0] = kai_qidx[j];
-                    // }
-                    // if (kai_ans[j] == row_data[1]) {
-                    //     row_data_idx[1] = kai_qidx[j];
-                    //     //alert("b");
-                    // }
-                    // if (kai_ans[j] == row_data[2]) {
-                    //     row_data_idx[2] = kai_qidx[j];
-                    //     //alert("c");
-                    // }
-                    // if (kai_ans[j] == row_data[3]) {
-                    //     row_data_idx[3] = kai_qidx[j];
-                    //     //alert("d");
-                    // }
-                    // if (kai_ans[j] == row_data[4]) {
-                    //     row_data_idx[4] = kai_qidx[j];
-                    //     //alert("e");
-                    // }
-                    // }
                 pic_def.push(row_data_idx);
                 word_def.push(row_data);
             }
@@ -124,16 +105,22 @@
                 row = table.insertRow(-1);
                 for (var j = 0; j < pic_def[i].length; j++) {
                     var cell = row.insertCell(-1);
-                    if (pic_def[i][j] == '') {
+                    if (pic_def[i][j] == '@') {
+                        cell.style = "font-size: 100px;text-align:center;vertical-align:middle";
+                        cell.innerHTML = '__';
+                        cell.style["background-color"] = "yellow";
+                    }else if (pic_def[i][j] == '') {
                         //var img_inc = document.createElement("div");
-                        cell.style = "font-size: 100px;"
+                        cell.style = "font-size: 100px;text-align:center;";
                         cell.innerHTML = word_def[i][j];
                         //cell.appendChild(img_inc);
                     } else {
+                        cell.style = "text-align:center;vertical-align:middle";
                         var img_inc = document.createElement("img");
                         img_inc.src = "./assets/db/img/"+pic_def[i][j]+".png";
                         img_inc.alt = pic_def[i][j];
-                        img_inc.style = "height:100px;width:100px;";
+                        img_inc.style = "height:100px;width:100px;"
+                        //alert("here")
                         cell.appendChild(img_inc);
                     }
 
@@ -175,8 +162,10 @@
                 images[k].alt = zhuan_map_kai[images[k].alt];
             }
             hinted = true;
+            document.getElementById("str_res").innerHTML = "";
             // alert(images.length);
         }
+        var ansed = false;
         function show_ans() {
             window.scrollTo(0,0);
             show_hint();
@@ -184,15 +173,16 @@
             var a = zhuan_map_kai[kai_qidx[this_char_idx]];
             var changeHTML = '<img src="./assets/db/img/'+a+'.png" alt="'+a+'" style="height: 100px; width: 100px;">'
             for (var t = 0; t < tds.length; t++) {
-                if (tds[t].innerHTML == '@') {
+                if (tds[t].innerHTML == '__') {
                     tds[t].innerHTML = changeHTML;
-                    tds[t].style["background-color"] = "yellow";
                 }
             }
 
             //document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];
             document.getElementById("btn_next").disabled = ""; //show next button
             document.getElementById("btn_submit").disabled = "true";
+            document.getElementById("str_res").innerHTML = "";
+            ansed = true;
         }
 
         function gen_q() {
@@ -246,23 +236,32 @@
     <!--style="visibility:hidden;width:50px;height:50px;"-->
     <div id="dvTable" align="center"></div>
     <div>
-        <p id="meassage_req" style="text-align: center; font-size: 12pt; font-weight: bold; margin: 0 0 0 0;">請輸入這個釋義的現代漢字：</p>
+        <p id="meassage_req" style="text-align: center; font-size: 16pt; font-weight: bold; margin: 0 0 0 0; color:black">請輸入這個釋義的現代漢字：</p>
     </div>
-    <div id="user_input_div" align="center" >
+    <div id="user_input_div">
         <!--input type="button" value="Generate Table" onclick="GenerateTable()" /-->
-        <div align="center" style="padding-bottom: 10px;">
-            <input type="text" id="user_input" style="width: 30%; text-align: center;"/>
+        <div>
+            <input type="text" id="user_input" style="width: 40%; text-align :center;margin: 10px;display: inline-block;"/>
         </div>
-        <button id="btn_submit" disabled = false onclick="submit_ans()">送出</button>
-        <button id="btn_hint" onclick="show_hint()">當代眼藥水！</button>
-        <button id="btn_show" onclick="show_ans()">公布答案</button>
+        <div>
+            <button id="btn_submit" onclick="submit_ans()">送出</button>
+            <button id="btn_hint" onclick="show_hint()">現代眼藥水</button>
+            <button id="btn_show" onclick="show_ans()">公布答案</button>
+        </div>
     </div>
 
-    <p id="str_res" style="padding: 10px; font-weight: bold; color: rgb(241, 81, 81);"></p>
+    <p id="str_res" style="font-size :16pt;padding: 10px; font-weight: bold; color: rgb(0,0,0);"></p>
 					</article>
 				</div>
 			</section>
             		<!-- Scripts -->
+                    <script type="text/javascript">
+                    document.getElementById('user_input').onkeydown = function(e){
+                       if(e.keyCode == 13){
+                            submit_ans();// submit
+                       }
+                    };
+                    </script>
                     <script src="assets/js/jquery.min.js"></script>
                     <script src="assets/js/jquery.scrolly.min.js"></script>
                     <script src="assets/js/jquery.scrollex.min.js"></script>

@@ -6,7 +6,12 @@
 </head>
 <body align="center" onload = gen_q()>
 	<script src = "./assets/db/db.js"></script>
+    <script src = "./assets/db/dblearn.js"></script>
+    <script src = "./assets/db/dblearntree.js"></script>
     <script>
+        function greet() {
+            document.getElementById('zhuan_child').style.display = "";
+        }
         var str_url = window.location.href;
         var this_url = new URL(str_url);
         var level = this_url.searchParams.get("level");
@@ -34,12 +39,49 @@
 
           return array;
         }
+        function GenerateTable(query) {
+            //Build an array containing Customer records.
+            thismap = zhuan_map_child;
+            var pics = new Array();
+            if (!(query in thismap))
+                thismap[query] = new Array();
+            for (var i = 0; i < thismap[query].length; i+=5) {
+                var row_data = thismap[query].slice(i,i+5);
 
+                pics.push(row_data);
+            }
+
+            //Create a HTML Table element.
+            var table = document.createElement("TABLE");
+            table.border = "0";
+            table.id = "t0";
+
+            //Get the count of columns.
+            //Add the data rows.
+            for (var i = 0; i < pics.length; i++) {
+                row = table.insertRow(-1);
+                row.style["white-space"] = "nowrap";
+                row.align="center";
+                for (var j = 0; j < pics[i].length; j++) {
+                    var cell = row.insertCell(-1);
+                    cell.style["display"] = "inline-block";
+                    cell.style["padding"] = "20px";
+                    var img_inc = document.createElement("img");
+                    img_inc.src = "./assets/db/img/"+pics[i][j]+".png";
+                    img_inc.alt = pics[i][j];
+                    img_inc.style = "height:100px;width:100px;";
+                    cell.appendChild(img_inc);
+            }
+        }
+        var dvTable = document.getElementById("pic_zhuan_child");
+        dvTable.innerHTML = "";
+        dvTable.appendChild(table);
+    }
         var random_idx_ls = shuffle(level_idx_ls);
         function submit_ans() {
-            var b = btn_submit.value;
+            var b = user_input.value;
             if (b == kai_ans[this_char_idx]) {
-                document.getElementById("str_res").innerHTML = "答案正確！";
+                document.getElementById("str_res").value= "答案正確！";
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
                 //document.getElementById("btn_next_div").style.display = "";
                 setTimeout(function () { gen_q(); }, 1000);
@@ -47,19 +89,35 @@
             }
 
             else {
-                document.getElementById("str_res").innerHTML = "答案不正確！";
+                document.getElementById("str_res").value = "答案不正確！";
 
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
-                //document.getElementById("btn_submit_div").innerHTML = "";
-                //document.getElementById("btn_submit_div").style.display = "none";
+                //document.getElementById("user_input_div").innerHTML = "";
+                //document.getElementById("user_input_div").style.display = "none";
             }
         }
+        var hinted = false;
         function show_hint() {
-            document.getElementById("str_res").innerHTML = kai_def[this_char_idx];
+            document.getElementById("str_res").innerHTML = "";
+            document.getElementById('zhuan_child').style.display = "";
+            GenerateTable(document.getElementById("pic_q").alt);
+            hinted = true;
         }
+        var ansed = false;
         function show_ans() {
-            document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];
-            document.getElementById("btn_next_div").style.disabled = true; //show next button
+            //document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];
+            show_hint();
+            var images = document.getElementById('t0').getElementsByTagName('img');
+            //alert(images.length);
+            for (var k = 0;k < images.length; k++) {
+                images[k].src = "./assets/db/img/"+zhuan_map_kai[images[k].alt]+".png";
+                images[k].alt = zhuan_map_kai[images[k].alt];
+            }
+            document.getElementById("btn_next").disabled = ""; //show next button
+            document.getElementById("btn_submit").disabled = "true";
+            document.getElementById("pic_a").src = "./assets/db/img/"+zhuan_map_kai[kai_qidx[this_char_idx]]+".png";
+            document.getElementById("pic_a").style.display = "";
+            ansed = true;
         }
 
         function gen_q() {
@@ -67,10 +125,12 @@
             this_char_idx = random_idx_ls[this_q_idx] + (level-1)*100;
             document.getElementById("pic_q").src = "./assets/db/img/"+kai_qidx[this_char_idx]+".png";
             document.getElementById("pic_q").alt = kai_qidx[this_char_idx];
-            document.getElementById("btn_submit_div").style.display = "";
-            document.getElementById("str_res").innerHTML = ""//kai_qidx[this_char_idx];
-            document.getElementById("btn_next_div").disaabled = "true"; //hide next button
-            document.getElementById("btn_submit").value = "";
+            document.getElementById("user_input_div").style.display = "";
+            document.getElementById("pic_a").style.display = "none";//kai_qidx[this_char_idx];
+            document.getElementById("user_input").value = "";
+            document.getElementById("btn_next").disabled = "true";
+            document.getElementById("btn_submit").disabled = "";
+            document.getElementById("pic_zhuan_child").innerHTML = "";
         }
     </script>
     			<header id="header" class="alt">
@@ -91,10 +151,10 @@
                         <div class="inner">
                             <article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 10px;">
 
-    <div><a href="game_character.html"><button style = "float: left;">回遊戲選單</button></a></div>
+
     <div id = "btn_next_div">
     <div><a href="game_character.html"><button style = "float: left;">回關卡選單</button></a></div>
-    <div id = "btn_next_div" style="visibility:hidden;">
+    <div id = "btn_next_div" >
         <button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
     </div>
     <div>
@@ -107,21 +167,30 @@
         <p id="meassage_req" style="text-align: center; font-size: 12pt; font-weight: bold; margin: 0 0 0 0;">請輸入這個小篆文字的現代漢字寫法：</p>
     </div>
     <!--style="visibility:hidden;width:50px;height:50px;"-->
-    <div id="btn_submit_div">
+    <div id="user_input_div">
         <div align="center" style="padding-bottom: 10px;">
-            <input type="text" id="btn_submit" style="width: 30%; text-align: center;"/>
+            <input type="text" id="user_input" style="width: 30%; text-align: center;"/>
         </div>
-        <button onclick="submit_ans()">送出</button>
-        <button id="btn_hint" onclick="show_hint()">提示</button>
+        <button id="btn_submit"onclick="submit_ans()">送出</button>
+        <button id="btn_hint" onclick="show_hint()">碎字機</button>
         <button id="btn_show" onclick="show_ans()">公布答案</button>
     </div>
+    <div id = "str_res" style="font-size: 24px;"><img id="pic_a" src="" alt = "1" width="27.5%"></div>
+    <div id = "zhuan_child" style="font-size: 24px;">子部件</div>
+    <div id="pic_zhuan_child" align="center"></div>
 
-    <p id="str_res" style="padding: 10px; font-weight: bold; color: rgb(241, 81, 81);"></p>
 					</article>
 				</div>
 			</section>
 
             		<!-- Scripts -->
+            <script type="text/javascript">
+                document.getElementById('user_input').onkeydown = function(e){
+                   if(e.keyCode == 13){
+                        submit_ans();// submit
+                   }
+                };
+                </script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
