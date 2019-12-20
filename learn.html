@@ -6,7 +6,13 @@
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body align = "center">
-
+    <style type="text/css">
+        input[type="text"]:focus {
+            border-color: rgba(255, 255, 255, 1);
+            box-shadow: 0 0 0 1px #CCCCCC;
+            color: #ffFFFF;
+        }
+    </style>
     <script>
         var str_url = window.location.href;
         var this_url = new URL(str_url);
@@ -145,7 +151,7 @@
 
         </div>
         <div align="center" style="width: 10%; display: inline-block; ">
-            <input id="query" type="text" style=" text-align: center; border-color: white;border-width: 1px;"></input>
+            <input id="query" type="text" style=" text-align: center; border-color: white;border-width: 1px;color: white"></input>
         </div>
         <div align="left" style="width: 25%; display: inline-block; ">
             <button id="btn_search" onclick="find_word()" style="background-color: Transparent; border:none;font-size: 16px">搜 尋</button>
