@@ -4,14 +4,14 @@
     <title>直接試身手 - 單字學習 | 篆來篆去</title>
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
-<body align="center" onload = greet()>
+<body align="center" >
 	<script src = "./assets/db/db.js"></script>
     <script src = "./assets/db/dblearn.js"></script>
     <script src = "./assets/db/dblearntree.js"></script>
     <script>
-        function greet() {
-            document.getElementById("btn_next").disabled = "true";
-        }
+        // function greet() {
+        //     document.getElementById("btn_next").disabled = "true";
+        // }
         var str_url = window.location.href;
         var this_url = new URL(str_url);
         var level = this_url.searchParams.get("level");
@@ -71,12 +71,12 @@
                     img_inc.alt = pics[i][j];
                     img_inc.style = "height:100px;width:100px;";
                     cell.appendChild(img_inc);
+                }
             }
+            var dvTable = document.getElementById("pic_zhuan_child");
+            dvTable.innerHTML = "";
+            dvTable.appendChild(table);
         }
-        var dvTable = document.getElementById("pic_zhuan_child");
-        dvTable.innerHTML = "";
-        dvTable.appendChild(table);
-    }
         var random_idx_ls = shuffle(level_idx_ls);
         function submit_ans() {
             if (ansed) {
@@ -103,7 +103,7 @@
         var hinted = false;
         function show_hint() {
             document.getElementById("str_res").innerHTML = "";
-            document.getElementById('zhuan_child').style.display = "";
+            document.getElementById('zhuan_child_div').style.display = "";
             GenerateTable(document.getElementById("pic_q").alt);
             hinted = true;
         }
@@ -121,6 +121,7 @@
             document.getElementById("btn_submit").disabled = "true";
             
             document.getElementById("pic_a").style.display = "";
+            document.getElementById("str_res").innerHTML = "";
             ansed = true;
         }
         function gen_q_1() {
@@ -148,6 +149,7 @@
             document.getElementById("user_input").value = "";
             document.getElementById("btn_next").disabled = "true";
             document.getElementById("btn_submit").disabled = "";
+            document.getElementById("zhuan_child_div").style.display = "none";//kai_qidx[this_char_idx];
             document.getElementById("pic_zhuan_child").innerHTML = "";
             document.getElementById("now_q_idx").innerHTML = this_q_idx + "/100";
             document.getElementById("str_res").innerHTML = "";
@@ -202,8 +204,10 @@
         <button id="btn_show" onclick="show_ans()">公布答案</button>
     </div>
     <div id = "str_res" style="font-size: 24px;"></div>
-    <div id = "zhuan_child" style="font-size: 24px; display: none">子部件</div>
-    <div id="pic_zhuan_child" align="center"></div>
+    <div id = "zhuan_child_div" style="display: none;">
+        <div id = "zhuan_child" style="font-size: 24px; ">子部件</div>
+        <div id="pic_zhuan_child" align="center"></div>
+    </div>
 
 					</article>
 				</div>
@@ -216,8 +220,7 @@
                         submit_ans();// submit
                    }
                    if((e.keyCode == 39 || e.keyCode == 40 )&& (!document.getElementById("btn_next").disabled)){
-                        gen_q();// submit
-                   }
+                        gen_q();
                 };
                 </script>
 			<script src="assets/js/jquery.min.js"></script>

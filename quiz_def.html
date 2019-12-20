@@ -12,7 +12,7 @@
     }
     </style>
 </head>
-<body align="center" onload = gen_q()>
+<body align="center" onload = gen_q_0()>
 	<script src = "./assets/db/db.js"></script>
     <script src = "./assets/db/dblearn.js"></script>
     <script>
@@ -126,19 +126,24 @@
 
 
                     //cell.innerHTML = pic_def[i][j];
+                }
             }
+
+            var dvTable = document.getElementById("dvTable");
+            dvTable.innerHTML = "";
+            dvTable.appendChild(table);
         }
 
-        var dvTable = document.getElementById("dvTable");
-        dvTable.innerHTML = "";
-        dvTable.appendChild(table);
-    }
         function submit_ans() {
+            if (ansed) {
+                return;
+            }
             var b = user_input.value;
             if (b == kai_ans[this_char_idx]) {
                 document.getElementById("str_res").innerHTML = "答案正確！";
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
                 //document.getElementById("btn_next_div").style.visibility = "";
+                ansed = true;
                 setTimeout(function () { gen_q(); }, 1000);
 
             }
@@ -159,7 +164,9 @@
             //alert(images.length);
             for (var k = 0;k < images.length; k++) {
                 images[k].src = "./assets/db/img/"+zhuan_map_kai[images[k].alt]+".png";
-                images[k].alt = zhuan_map_kai[images[k].alt];
+                //images[k].alt = zhuan_map_kai[images[k].alt];
+                images[k].onmouseover = function() {hover(this);};
+                images[k].onmouseout = function() {unhover(this);};
             }
             hinted = true;
             document.getElementById("str_res").innerHTML = "";
@@ -167,11 +174,14 @@
         }
         var ansed = false;
         function show_ans() {
+            if (ansed) {
+                return;
+            }
             window.scrollTo(0,0);
             show_hint();
             var tds = document.getElementById('t0').getElementsByTagName('td');
             var a = zhuan_map_kai[kai_qidx[this_char_idx]];
-            var changeHTML = '<img src="./assets/db/img/'+a+'.png" alt="'+a+'" style="height: 100px; width: 100px;">'
+            var changeHTML = '<img src="./assets/db/img/'+a+'.png" alt="'+kai_qidx[this_char_idx]+'" style="height: 100px; width: 100px;" onmouseover = "hover(this)" onmouseout = "unhover(this)">'
             for (var t = 0; t < tds.length; t++) {
                 if (tds[t].innerHTML == '__') {
                     tds[t].innerHTML = changeHTML;
@@ -184,21 +194,43 @@
             document.getElementById("str_res").innerHTML = "";
             ansed = true;
         }
+        function gen_q_0() {
+            this_char_idx = 2056;
+            change_q(this_char_idx);
+        }
+        function gen_q_1() {
+            document.getElementById("meassage_ex").style.display = "none";
+            document.getElementById("btn_next").style.display = "";
+            document.getElementById("now_q_idx").style.display = "";
 
+            gen_q();
+        }
+        var genned = true; 
+        var this_char_idx = 0;
         function gen_q() {
-            hinted = false;
+            if (!genned) {
+                return;
+            }
+            genned = false;
             this_q_idx += 1;
             this_char_idx = random_idx_ls[this_q_idx] + (level-1)*100;
+            change_q(this_char_idx);
+        }
+        function change_q(i) {
             GenerateTable();
-            document.getElementById("str_q").innerHTML = kai_def[this_char_idx];
-            document.getElementById("pic_q").src = "./assets/db/img/"+kai_qidx[this_char_idx]+".png";
-            document.getElementById("pic_q").alt = kai_qidx[this_char_idx];
+            document.getElementById("str_q").innerHTML = kai_def[i];
+            document.getElementById("pic_q").src = "./assets/db/img/"+kai_qidx[i]+".png";
+            document.getElementById("pic_q").alt = kai_qidx[i];
             document.getElementById("user_input_div").style.display = "";
-            document.getElementById("str_res").innerHTML = ""//kai_qidx[this_char_idx];
+            document.getElementById("user_input").value = "";
+            document.getElementById("str_res").innerHTML = ""//kai_qidx[i];
             document.getElementById("btn_next").disabled = "true";
             document.getElementById("btn_submit").disabled = "";
             document.getElementById("user_input").value = "";
             window.scrollTo(0,0);
+            ansed = false;
+            hinted = false;
+            genned = true;
         }
     </script>
         			<header id="header" class="alt">
@@ -220,14 +252,15 @@
                                 <article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 10px;">
 
     <!--div><a href="game_character.html"><button style = "float: left;">回遊戲選單</button></a></div-->
-    <div id = "btn_next_div"  style="color:red;">
-        <button type="button" disabled = "true" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
-    <div><a href="game_character.html"><button style = "float: left; margin-bottom: 10px;">回關卡選單</button></a></div>
-    <div id = "btn_next_div" style="visibility:hidden;color:red;">
-        <button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
+    <div id = "btn_next_div" style="padding : 0px margin: 0 0 0 0;">
+        <a href="game_character.html" style = "float:left"><button >回關卡選單</button></a>
+        <button type="button"  id="btn_next" onclick="gen_q()" style = "float:right;display:none" >下一題</button>
     </div>
-    <div>
-        <p id="now_q_idx" align="center"></p>
+    <div class = "above_q" >
+        <p id="now_q_idx" style="font-size: 24pt; display: none" text-align="center"></p>
+        <p id="meassage_ex" style="font-size: 24pt;" text-align="center"><br>~說明~<br> 每題題目為一段《說文》內容，<br>請猜出題目描述的是哪一個字<br>輸入您的答案，答對後可進入下一關<br>如此題答案為 「瓊」<br>當代眼藥水 按鈕為求救道具<br>可以暫時穿越時光，來到楷書時代。<br>此時將滑鼠聚焦在字上，會有神奇的事情發生！<br><button id="btn_ok" onclick="gen_q_1()">我了解了</button>
+        </p>
+
     </div>
     <div>
         <p id="str_q" align="center" style="display: none" width="40%"></p> <!--for debug-->
@@ -244,7 +277,7 @@
             <input type="text" id="user_input" style="width: 40%; text-align :center;margin: 10px;display: inline-block;"/>
         </div>
         <div>
-            <button id="btn_submit" onclick="submit_ans()">送出</button>
+            <button id="btn_submit" onclick="submit_ans()" disabled="true">送出</button>
             <button id="btn_hint" onclick="show_hint()">現代眼藥水</button>
             <button id="btn_show" onclick="show_ans()">公布答案</button>
         </div>
@@ -256,14 +289,20 @@
 			</section>
             		<!-- Scripts -->
                     <script type="text/javascript">
-                    document.getElementById('user_input').onkeydown = function(e){
+                    document.onkeydown = function(e){
                        if(e.keyCode == 13){
                             submit_ans();// submit
                        }
-                       if(e.keyCode == 39 || e.keyCode == 40){
+                       if(e.keyCode == 39 || e.keyCode == 40 && (!document.getElementById("btn_next").disabled)){
                             gen_q();// submit
                        }
                     };
+                    function hover(element) {
+                      element.setAttribute('src', "./assets/db/img/"+element.alt+".png");
+                    }
+                    function unhover(element) {
+                      element.setAttribute('src', "./assets/db/img/"+zhuan_map_kai[element.alt]+".png");
+                    }
                     </script>
                     <script src="assets/js/jquery.min.js"></script>
                     <script src="assets/js/jquery.scrolly.min.js"></script>
