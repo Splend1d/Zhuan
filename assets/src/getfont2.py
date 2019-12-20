@@ -79,7 +79,6 @@ class Crawler():
                     imgid = imgele.get_attribute("alt")[1:-1]
                     self.databasetxt.append([zh_order, kai_order, imgid, kai_txt, kai_txt_bin])
                     print(self.databasetxt)
-                    s()
             if (i + 1 != int(page_info)):
                self.browser.find_element_by_xpath('//*[@id="PageLink' + str(i + 2) + '"]').click()#change page
             

@@ -15,7 +15,9 @@ for m,z in zip(majors_all,zhuan_no):
 		majors[thism].append(int(z))
 	except:
 		majors[thism] = [int(z)]
-#print(majors)
+print(majors.keys())
+print(len(majors.keys()))
+s()
 covered = []
 for m in majors:
 	check_passed = []
