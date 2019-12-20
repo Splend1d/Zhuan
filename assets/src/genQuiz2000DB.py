@@ -11,8 +11,10 @@ major_2000 = []
 with open("../db/freq.json","r") as f:
 	freq = json.load(f)
 lvls = sorted(list(set(freq.values())))
-for ch in freq:
-	kaiid_2000.append(int(ch))
+for lvl in lvls:
+	for ch in freq:
+		if freq[ch] == lvl:
+			kaiid_2000.append(int(ch))
 print(sorted(kaiid_2000))
 
 df = pd.read_csv('../db/db.csv')
@@ -27,7 +29,6 @@ for d,f,k in zip(font_all,fontid_all,kaiid_all):
 		font_map_fontid[d] = f
 		kaiid_map_font[int(k[2:-2])] = d
 print(font_map_fontid)
-s()
 print(kaiid_map_font)
 
 
@@ -92,8 +93,8 @@ print(len(major_2000))
 print(len(fontid_2000))
 print(len(def_2000))
 print(no_char_def)
+print(no_char_def_chars) # 說文用字找不到
 s()
-#print(no_char_def_chars)
 
 imgs = os.listdir('../db/img')
 #print(imgs)
