@@ -4,7 +4,7 @@
     <title>Guess that Zhuan</title>
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
-<body align="center" onload = "greet()">
+<body align="center" onload = "">
 	<script src = "./assets/db/dbessential.js"></script>
     <script src = "./assets/db/dblearntree.js"></script>
     <script src = "./assets/db/dbcomponents.js"></script>
@@ -15,19 +15,24 @@
         if (!level)
             level = 1;
         //alert(level);
-        function greet() {
-            document.getElementById("user_input_div").style.display = "none";
-        }
+        // function greet() {
+        //     document.getElementById("user_input_div").style.display = "none";
+        // }
         var this_q_idx = 0;
-        var this_ans = "";
+        var this_ans = "水";
         var available_majors = select_major;
         function submit_ans() {
+            
+            if (ansed) {
+                return;
+            }
+            ansed = true;
             var b = user_input.value;
             if (b.length == 0) {
                 alert("請輸入值！");
                 return;
             }
-            if (b == fontid_map_font[this_ans]) {
+            if (b == this_ans) {
                 document.getElementById("str_res").innerHTML = "答案正確！";
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
                 //document.getElementById("btn_next_div").style.display = "";
@@ -37,6 +42,7 @@
 
             else {
                 document.getElementById("str_res").innerHTML = "答案不正確！";
+                ansed = false;
 
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
                 //document.getElementById("user_input_div").innerHTML = "";
@@ -46,18 +52,34 @@
         // function show_hint() {
         //     document.getElementById("str_res").innerHTML = kai_def[this_char_idx];
         // }
+        var ansed = false;
         function show_ans() {
-            document.getElementById("str_res").innerHTML = this_ans;//fontid_map_font[this_ans];
+            if (ansed) {
+                return;
+            }
+            //fontid_map_font[this_ans];
             document.getElementById("btn_next").disabled = ""; //show next button
             document.getElementById("btn_submit").disabled = "true";
+            document.getElementById("str_res").innerHTML = this_ans;
         }
         function gen_q_1() {
             document.getElementById("user_input_div").style.display = "";
             document.getElementById("btn_ok").style.display = "none";
+            document.getElementById("btn_next").style.display = "";
             document.getElementById("meassage_ex").style.display = "none";
+            document.getElementById("now_q_idx").style.display = "";
             gen_q();
         }
+        var genned = true;
         function gen_q() {
+            if (!genned) {
+                return;
+            }
+            if (this_q_idx == 100) {
+                document.getElementById("btn_next").disabled = "true";
+                return
+            }
+            genned = false;
             this_q_idx += 1;
             var rand_idx = Math.floor(Math.random() * available_majors.length);
             this_ans = available_majors[rand_idx]; // this_ans is a character string
@@ -65,7 +87,7 @@
                 var q_base_start = parseInt(major_gen_q[this_ans][0]) // starting index of choices
                 var q_base_depth = major_gen_q[this_ans][1] - major_gen_q[this_ans][0] + 1 // number of choices
             }
-            var n_photos = Math.floor((100 - this_q_idx)/25)+1;
+            var n_photos = Math.floor((100 - this_q_idx)/25)+2;
             var q_base_selected = new Array();
             while (q_base_selected.length < n_photos) {
                 var rand_idx = Math.floor(Math.random() * q_base_depth);
@@ -82,8 +104,8 @@
             // do {
             
             // } while(zhuan_map_parent[this_ans].length < n_photos);
-            document.getElementById("now_q_idx").innerHTML = (this_q_idx) % 100 + "/100";
-            for (var i = 0; i < 4; i ++) {
+            document.getElementById("now_q_idx").innerHTML = (this_q_idx) + "/100";
+            for (var i = 0; i < 5; i ++) {
                 if (i < n_photos) {
                     document.getElementById("pic_q"+(i+1).toString()).style["display"] = "";
                     document.getElementById("pic_q"+(i+1).toString()).style["display"] = "";
@@ -95,6 +117,7 @@
                 }
 
             }
+            document.getElementById("str_res").innerHTML = "";
 
             var remove_major_after_use_to_implement_when_DB_is_ready;
             // for(var i = 0; i < available_majors.length; i++){
@@ -110,6 +133,8 @@
             document.getElementById("user_input").value = "";
             document.getElementById("btn_next").disabled = "true";
             document.getElementById("btn_submit").disabled = "";
+            ansed = false;
+            genned = true;
         }
     </script>
 	<header id="header" class="alt">
@@ -132,32 +157,34 @@
 
                     <div><a href="game_character.html"><button style = "float: left;">回遊戲選單</button></a></div>
                     <div id = "btn_next_div">
-                        <button type="button" disabled = true style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
+                        <button type="button" disabled = true style = "float: right;display: none" id="btn_next" onclick="gen_q()" >下一題</button>
                     </div>
-                    <div>
-                        <p id="now_q_idx" style="font-size: 24pt;" text-align="center">說明</p>
+                    <div class = "above_q" >
+                        <p id="now_q_idx" style="font-size: 24pt; display: none" text-align="center"></p>
+                        <p id="meassage_ex" style="font-size: 24pt;" text-align="center"><br>~說明~<br> 每題皆為一張小篆字型圖片，<br>輸入您的答案，答對後可進入下一關<br>如此題共同部首為水，可輸入水、清、涓等等<br> <button id="btn_ok" onclick="gen_q_1()">我了解了</button>
+                        </p>
+
                     </div>
                     <div>
                         <img id="pic_q1" src="./assets/db/img/27.6DAA.png" alt = "27.6DAA" width="27.5%" style = "height:150px;width:150px;">
                         <img id="pic_q2" src="./assets/db/img/27.6CB3.png" alt = "27.6CB3" width="27.5%" style = "height:150px;width:150px;">
                         <img id="pic_q3" src="./assets/db/img/27.6ECE.png" alt = "27.6ECE" width="27.5%" style = "height:150px;width:150px;">
                         <img id="pic_q4" src="./assets/db/img/27.6CEB.png" alt = "27.6CEB" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q5" src="./assets/db/img/27.6CEB.png" alt = "27.6FC1" width="27.5%" style = "height:150px;width:150px;">
                     </div>
                     <div>
-                        <p id="meassage_req" style="text-align: center; font-size: 24pt; font-weight: bold; margin: 0 0 0 0;">請輸入這些小篆文字的部首,或此部首其他的字</p>
-                        <p id="meassage_ex" style="text-align: center; font-size: 24pt; font-weight: bold; margin: 0 0 0 0;">如此題共同部首為水，可輸入水、清、涓等等</p>
+                        <p id="meassage_req" style="text-align: center; font-size: 24pt; font-weight: bold; margin: 0 0 0 0;">請輸入這些小篆文字的共同部首,或此部首其他的字</p>
                     </div>
                     <!--style="visibility:hidden;width:50px;height:50px;"-->
                     <div id="user_input_div">
                         <div align="center" style="padding: 10px;">
                             <input type="text" id="user_input" style="width: 30%; text-align: center;"/>
                         </div>
-                        <button id = "btn_submit" onclick="submit_ans()">送出</button>
+                        <button id = "btn_submit" onclick="submit_ans()" disabled="true">送出</button>
                         <!--button id="btn_hint" onclick="show_hint()">提示</button-->
                         <button id="btn_show" onclick="show_ans()">公布答案</button>
 
                     </div>
-                    <button id="btn_ok" onclick="gen_q_1()">我了解了</button>
 
                     <p id="str_res" style="padding: 10px; font-size:24px; font-weight: bold; color: rgb(0,0,0);"></p>
                 </article>
@@ -170,7 +197,10 @@
            if(e.keyCode == 13){
                 submit_ans();// submit
            }
-           if(e.keyCode == 39 || e.keyCode == 40){
+           if((e.keyCode == 39 || e.keyCode == 40) && (!document.getElementById("btn_next").disabled)){
+                gen_q();// submit
+           }
+           if(e.keyCode == 37){
                 gen_q();// submit
            }
         };
