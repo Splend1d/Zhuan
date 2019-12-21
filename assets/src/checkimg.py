@@ -1,20 +1,19 @@
-import os 
-import pandas as pd
-ls = os.listdir("./db/img2")
-print(len(ls))
-#print(ls)
+import os
+import json
+imgsown = set(os.listdir('../db/img'))
+print(imgsown)
 
-df = pd.read_csv('./db/db2.csv')
-imgids = df["字體編號"]
-kimgids = df["楷書字體編號"]
-print(len(set(imgids)))
-print(len(set(kimgids)))
-noimg = []
-for img in imgids:
-   if img + ".png" not in ls:
-      noimg.append(img)
-for img in kimgids:
-   if img + ".png" not in ls:
-      noimg.append(img)
-print(noimg)
+with open('../db/database_word.json','r') as f:
+	db = json.load(f)
 
+imgsneed = []
+for v in db.values():
+	imgsneed += v['fonts'][0] 
+	imgsneed += v['fonts'][1]
+imgsnotown = []
+for img in imgsneed:
+	if img + '.png' not in imgsown:
+		imgsnotown.append(img)
+print(len(imgsown))
+print(len(imgsnotown))
+ 

@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import WebDriverException
+import json
 import pickle as pkl
 import random
 import sys
@@ -34,7 +35,7 @@ class Crawler():
 
     def get_freq(self,f):
         
-        #sleep(10) # set dont show image on browser by human!!
+        sleep(10) # set dont show image on browser by human!!
         self.browser.find_element_by_xpath('//*[@id="BasicFrom"]/table[1]/tbody/tr[8]/td[2]/a').click()
         sleep(1)
         self.browser.find_element_by_xpath('//*[@id="KaishuFreqCheck"]').click()
@@ -67,12 +68,12 @@ class Crawler():
                     except:
                         i-=1
         print("finish parsing zhuan to: ", f)
-        with open('freq.pkl', 'wb') as f:
+        with open('../db/freq3000.pkl', 'wb') as f:
             pkl.dump(c.font_ids, f)
         
 
-        
+freq = 3000  
 c = Crawler()
-c.get_freq(2500)
-
+c.get_freq(freq)
+print("finish getting zhuan words under freq",freq)
 

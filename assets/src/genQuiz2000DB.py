@@ -1,6 +1,7 @@
 import json
 import os
 import pandas as pd
+import pickle as pkl
 
 kaiid_2000 = []
 def_2000 = []
@@ -94,6 +95,8 @@ print(len(fontid_2000))
 print(len(def_2000))
 print(no_char_def)
 print(no_char_def_chars) # 說文用字找不到
+with open("../db/weird.pkl","wb") as f:
+	pkl.dump(no_char_def,f)
 s()
 
 imgs = os.listdir('../db/img')
