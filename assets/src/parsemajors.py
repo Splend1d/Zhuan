@@ -1,31 +1,7 @@
 import pickle as pkl
 import json
-with open("../db/database_word.pkl", "rb") as f:
-    db = pkl.load(f)
-print(db)
-n_odd =0 
-for k,e in db.items():
-	if len(e["fonts"]) % 2 != 0 :
-		n_odd += 1
-	fontkai = []
-	fontzhuan = []
-	for f in e["fonts"]:
-		f = f[1:-1]
-		charset = int(f.split('.')[0])
-		if charset >= 27 :
-			fontzhuan.append(f)
-		else :
-			fontkai.append(f)
-		
-		e["fonts"] = [fontkai,fontzhuan]
-		db[k] = e
-print(n_odd)
-with open("../db/database_word.json", "w",encoding = "utf8") as f:
-	json.dump(db,f)
-print(db)
-s()
-n_odd =0 
-with open("../db/database_coverage.pkl", "rb") as f:
+
+with open("../db/majors_coverage.pkl", "rb") as f:
     dbcoverage = pkl.load(f)
 #print(dbcoverage)
 #print(freq2000)
@@ -47,7 +23,7 @@ for i in range(1,9832):
 	if i not in all_:
 		print(i)
 
-125 major parts have over 10 entries, choose them as database
+#125 major parts have over 10 entries, choose them as database
 
 
 #fix mismatched terms
@@ -103,6 +79,7 @@ dbcoverage['𦣹'] = [2215,2221]
 dbcoverage['鹿'] = [6228,6253]
 print("-after patch-")
 print("duplicates:",)
+all_.clear()
 for k,v in dbcoverage.items():
 	
 
@@ -118,6 +95,6 @@ for i in range(1,9832):
 		print(i)
 
 
-with open("../db/database_coverage.pkl", "rb") as f:
-    dbcoverage = pkl.load(f)
+with open("../db/majors_coverage.json", "w") as f:
+    json.dump(dbcoverage, f)
 

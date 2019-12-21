@@ -3,24 +3,23 @@ from requests_html import HTMLSession
 
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 import json
+import pickle as pkl
 import pandas as pd
 
 import sys
 import os
 
-with open("../db/database_word.json","r") as f:
-  db = json.load(f)
 imgsown = set(os.listdir('../db/img'))
 print(imgsown)
 
-with open('../db/database_word.json','r') as f:
+with open('../db/main.pkl','r') as f:
   db = json.load(f)
 
 imgsneedkai = []
 imgsneedzhuan = []
 for v in db.values():
   imgsneedkai += v['fonts'][0] 
-  imgsneedzhuan += v['fonts'][1]
+  imgsneedzhuan += v['fonts'][1] # NEED　TO CHANGE
 imgsnotownzhuan = []
 imgsnotownkai = []
 for img in imgsneedkai + imgsneedzhuan:
@@ -77,6 +76,5 @@ for n,id_ in enumerate(imgsnotownzhuan):
          #print(i.attrs)
        
 
-s() 
-with open('../db/database_font.json', 'r',encoding = "utf8") as f:
+with open('../db/font.pkl', 'wb',encoding = "utf8") as f:
     json.dump(font_infos,f)

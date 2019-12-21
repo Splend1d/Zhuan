@@ -1,8 +1,8 @@
 import pickle as pkl
 import json
-with open("../db/database_coverage.pkl", "rb") as f:
+with open("../db/majors_coverage.pkl", "rb") as f:
     dbcoverage = pkl.load(f)
-with open("../db/database_word.json", "r") as f:
+with open("../db/main.json", "r") as f:
     dbword = json.load(f)
 
 n_parents_distribution = [0] * 10
@@ -22,7 +22,7 @@ for k,v in dbcoverage.items():
 print(n_parents_distribution)
 
 print(len(filtered_select))
-with open("../db/dbcomponents.js", "w", encoding="utf8") as f:
+with open("../db/components.js", "w", encoding="utf8") as f:
     
     f.write("var select_major =")
     f.write(str(filtered_select))
@@ -31,7 +31,7 @@ with open("../db/dbcomponents.js", "w", encoding="utf8") as f:
     f.write(str(filtered_q))
     f.write(';\n')
     
-with open("../db/dbessential.js", "w", encoding="utf8") as f:
+with open("../db/essential.js", "w", encoding="utf8") as f:
     f.write("var zhuanid_map_all =")
     f.write(str(dbword))
     f.write(';\n')

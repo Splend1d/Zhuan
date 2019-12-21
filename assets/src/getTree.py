@@ -3,6 +3,7 @@ import sys
 import os
 import pandas as pd
 import json
+import pickle as pkl
 from time import sleep as sleep
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException
@@ -79,8 +80,8 @@ class Crawler():
             
                     
 
-with open('../db/dbtree2.json', 'r') as f:
-    parsed = json.load(f)
+with open('../db/tree.pkl', 'rb') as f:
+    parsed = pkl.load(f)
 crl = Crawler()
 #print(crl.tree)
 thisiter = len(parsed) # find x-fold results
@@ -131,13 +132,13 @@ while(True):
         doparse = True;
         if not count % 100:
             parsed[-1] = crl.tree
-            with open('../db/dbtree2.json', 'w') as f:
-                json.dump(parsed, f)
+            with open('../db/tree.pkl', 'wb') as f:
+                pkl.dump(parsed, f)
 
         count += 1
     parsed[-1] = crl.tree
-    with open('../db/dbtree2.json', 'w') as f:
-        json.dump(parsed, f)
+    with open('../db/tree.pkl', 'wb') as f:
+        pkl.dump(parsed, f)
     if not doparse: # maximum iteration reached
         break;
     thisiter += 1

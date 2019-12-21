@@ -4,9 +4,10 @@
     <meta charset="utf-8" />
     <title>速成開天眼 - 單字學習 | 篆來篆去</title>
     <link rel="stylesheet" href="assets/css/main.css" />
-    <script src = "./assets/db/db.js"></script>
-    <script src = "./assets/db/dblearn.js"></script>
-    <script src = "./assets/db/dblearntree.js"></script>
+    <script src = "./assets/db/essential.js"></script>
+    <script src = "./assets/db/freq3000.js"></script>
+    <script src = "./assets/db/tree.js"></script>
+    <script src = "./assets/db/fontmap.js"></script>
 
 </head>
 <body align = "center">
@@ -19,6 +20,7 @@
             level = 1;
         }
         var this_q_idx = 1 + (level-1) * 100;
+        var this_ans = ""
 
         function GenerateTable(query,ischild) {
             //Build an array containing Customer records.
@@ -56,7 +58,7 @@
                     img_inc.alt = pics[i][j];
                     img_inc.style = "height:100px;width:100px;";
                     const isEqual = (element) => element == pics[i][j];
-                    var k = kai_qidx.findIndex(isEqual);
+                    var k = def3000.findIndex(isEqual);
                     img_inc.onclick = function() {goto_word(this.alt,k);};
                     img_inc.onmouseover = function() {hover(this);};
                     img_inc.onmouseout = function() {unhover(this);};
@@ -76,19 +78,19 @@
 
             document.getElementById("pic_zhuan").src = "./assets/db/img/"+query_img+".png";
             document.getElementById("pic_zhuan").alt = query_img;
-            document.getElementById("pic_kai").src = "./assets/db/img/"+zhuan_map_kai[query_img]+".png";
-            document.getElementById("pic_kai").alt = zhuan_map_kai[query_img];
+            document.getElementById("pic_kai").src = "./assets/db/img/"+z2k[query_img]+".png";
+            document.getElementById("pic_kai").alt = z2k[query_img];
             //document.getElementById("debugger").innerHTML = thiskey.length.toString();
             if (kai_qidx >= 0) {
-                document.getElementById("zhuan_def").innerHTML = kai_def[kai_qidx].split("@").join(kai_ans[kai_qidx]);
+                document.getElementById("zhuan_def").innerHTML = def3000[kai_qidx][0].split("@").join(this_ans);
                 
-                document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+kai_dict[kai_part[kai_qidx][3]]+".png";
+                document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+zhuanid_map_all[zhuanid_map_all[freq3000[kai_qidx]]['major']]['fonts'][1][0]+".png";
                 //alert(kai_part[kai_qidx][3].hexEncode());
-                document.getElementById("pic_zhuan_main").alt = kai_dict[kai_part[kai_qidx][3]];
+                document.getElementById("pic_zhuan_main").alt = zhuanid_map_all[zhuanid_map_all[freq3000[kai_qidx]]['major']]['fonts'][1][0];
             } else {
-                document.getElementById("zhuan_def").innerHTML = zhuan_map_def[query_img];
-                document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+kai_dict[zhuan_map_main[query_img][3]]+".png";
-                document.getElementById("pic_zhuan_main").alt = kai_dict[zhuan_map_main[query_img][3]];
+                document.getElementById("zhuan_def").innerHTML = zhuanid_map_all[z2i[query_img]]['meaning'];
+                document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+zhuanid_map_all[z2i[query_img]]['fonts'][1][0]+".png";
+                document.getElementById("pic_zhuan_main").alt = zhuanid_map_all[z2i[query_img]]['fonts'][1][0];
                 //alert(zhuan_map_main[query_img]);
             }
                 
@@ -119,7 +121,8 @@
             	document.getElementById("btn_last").disabled = "";
             }
             document.getElementById("now_q_idx").innerHTML = (this_q_idx) % 100 + 1 + "/100";
-            goto_word(kai_qidx[this_q_idx],this_q_idx);
+            this_ans = zhuanid_map_all[freq3000[this_q_idx]]['han'][0]
+            goto_word(zhuanid_map_all[freq3000[this_q_idx]]['fonts'][1][0],this_q_idx);
             genned = true;
         }
 
@@ -201,7 +204,7 @@
         }
 
         function hover(element) {
-          element.setAttribute('src', "./assets/db/img/"+zhuan_map_kai[element.alt]+".png");
+          element.setAttribute('src', "./assets/db/img/"+z2k[element.alt]+".png");
         }
 
         function unhover(element) {

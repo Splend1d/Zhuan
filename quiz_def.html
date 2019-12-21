@@ -13,8 +13,9 @@
     </style>
 </head>
 <body align="center" onload = gen_q_0()>
-	<script src = "./assets/db/db.js"></script>
-    <script src = "./assets/db/dblearn.js"></script>
+	<script src = "./assets/db/freq3000.js"></script>
+    <script src = "./assets/db/essential.js"></script>
+    <script src = "./assets/db/fontmap.js"></script>
     <script>
         var str_url = window.location.href;
         var this_url = new URL(str_url);
@@ -51,8 +52,8 @@
             var pic_def = new Array();
             var word_def = new Array();
             var cols = 8;
-            for (var i = 0; i < kai_def[this_char_idx].length; i+=cols) {
-                var row_data = kai_def[this_char_idx].slice(i,i+cols);
+            for (var i = 0; i < def3000[this_char_idx][0].length; i+=cols) {
+                var row_data = def3000[this_char_idx][0].slice(i,i+cols);
                 while (row_data.length < cols) {
                     row_data += ['\t'];
                 }
@@ -62,9 +63,9 @@
                 for (var j = 0; j < cols; j++) {
                     if (row_data[j] == "@")
                         row_data_idx[j] = "@";
-                    if (!(row_data[j] in kai_dict))
+                    if (!(row_data[j] in h2z))
                         continue;
-                    row_data_idx[j] = kai_dict[row_data[j]];
+                    row_data_idx[j] = h2z[row_data[j]];
                 }
                 pic_def.push(row_data_idx);
                 word_def.push(row_data);
@@ -163,8 +164,8 @@
             var images = document.getElementById('t0').getElementsByTagName('img');
             //alert(images.length);
             for (var k = 0;k < images.length; k++) {
-                images[k].src = "./assets/db/img/"+zhuan_map_kai[images[k].alt]+".png";
-                //images[k].alt = zhuan_map_kai[images[k].alt];
+                images[k].src = "./assets/db/img/"+z2k[images[k].alt]+".png";
+                //images[k].alt = z2k[images[k].alt];
                 images[k].onmouseover = function() {hover(this);};
                 images[k].onmouseout = function() {unhover(this);};
             }
@@ -180,8 +181,8 @@
             window.scrollTo(0,0);
             show_hint();
             var tds = document.getElementById('t0').getElementsByTagName('td');
-            var a = zhuan_map_kai[kai_qidx[this_char_idx]];
-            var changeHTML = '<img src="./assets/db/img/'+a+'.png" alt="'+kai_qidx[this_char_idx]+'" style="height: 100px; width: 100px;" onmouseover = "hover(this)" onmouseout = "unhover(this)">'
+            var zfont = zhuanid_map_all[freq3000[this_char_idx]]['fonts'][1][0];
+            var changeHTML = '<img src="./assets/db/img/'+z2k[zfont]+'.png" alt="'+zfont+'" style="height: 100px; width: 100px;" onmouseover = "hover(this)" onmouseout = "unhover(this)">'
             for (var t = 0; t < tds.length; t++) {
                 if (tds[t].innerHTML == '__') {
                     tds[t].innerHTML = changeHTML;
@@ -223,12 +224,12 @@
         function change_q(i) {
             GenerateTable();
             document.getElementById("now_q_idx").innerHTML = this_q_idx + "/100";
-            document.getElementById("str_q").innerHTML = kai_def[i];
-            document.getElementById("pic_q").src = "./assets/db/img/"+kai_qidx[i]+".png";
-            document.getElementById("pic_q").alt = kai_qidx[i];
+            document.getElementById("str_q").innerHTML = def3000[i];
+            document.getElementById("pic_q").src = "./assets/db/img/"+zhuanid_map_all[freq3000[i]]['fonts'][1][0]+".png";
+            document.getElementById("pic_q").alt = zhuanid_map_all[freq3000[i]]['fonts'][1][0];
             document.getElementById("user_input_div").style.display = "";
             document.getElementById("user_input").value = "";
-            document.getElementById("str_res").innerHTML = ""//kai_qidx[i];
+            document.getElementById("str_res").innerHTML = ""//freq3000[i];
             document.getElementById("btn_next").disabled = "true";
             document.getElementById("btn_submit").disabled = "";
             document.getElementById("user_input").value = "";
@@ -306,7 +307,7 @@
                       element.setAttribute('src', "./assets/db/img/"+element.alt+".png");
                     }
                     function unhover(element) {
-                      element.setAttribute('src', "./assets/db/img/"+zhuan_map_kai[element.alt]+".png");
+                      element.setAttribute('src', "./assets/db/img/"+z2k[element.alt]+".png");
                     }
                     </script>
                     <script src="assets/js/jquery.min.js"></script>

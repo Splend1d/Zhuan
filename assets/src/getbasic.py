@@ -38,7 +38,7 @@ class Crawler():
         sleep(15)#set view image to false 
 
 
-    def get_info(self):
+    def get_basic(self):
         all_info = {}
         self.browser.get("http://xiaoxue.iis.sinica.edu.tw/xiaozhuan")
         for idx in range(1,9832):
@@ -61,8 +61,10 @@ class Crawler():
             all_fonts = self.browser.find_elements_by_class_name('charValue')
             font_ids = [x.get_attribute("alt") for x in all_fonts]
             all_info[idx] = {"meaning":meaning,"origin":origin,"fonts":font_ids}
-            with open("../db/database_word.pkl", "wb") as f:
+            with open("../db/main.pkl", "wb") as f:
                 pkl.dump(all_info,f)
+            with open("../db/majors.pkl", "wb") as f:
+                pkl.dump(self.majors,f)
             self.browser.find_element_by_xpath('//*[@id="Reset"]').click()
             
     def get_major_coverage(self):
@@ -102,9 +104,10 @@ class Crawler():
             self.browser.find_element_by_xpath('//*[@id="Reset"]').click()
             count += 1
             print("finished parsing",m,cover[m])
-        print(self.majors_error)
+        with open("../db/majors_error.pkl", "wb") as f:
+            pkl.dump(self.majors_error,f)
         
-        with open("../db/database_coverage.pkl", "wb") as f:
+        with open("../db/majors_coverage.pkl", "wb") as f:
             pkl.dump(cover,f)
             
 
@@ -112,5 +115,9 @@ class Crawler():
         
 c = Crawler()
 
-c.get_info()
+# c.get_basic()
+# need to get self.majors first!!
+with open("../db/majors.pkl", "rb") as f:
+    c.majors = pkl.load(f)
 c.get_major_coverage()
+print("all done")
