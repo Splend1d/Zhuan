@@ -211,13 +211,18 @@
             if (!genned) {
                 return;
             }
+            if (this_q_idx == 100) {
+                document.getElementById("btn_next").disabled = "true";
+                return
+            }
             genned = false;
             this_q_idx += 1;
-            this_char_idx = random_idx_ls[this_q_idx] + (level-1)*100;
+            this_char_idx = random_idx_ls[this_q_idx-1] + (level-1)*100;
             change_q(this_char_idx);
         }
         function change_q(i) {
             GenerateTable();
+            document.getElementById("now_q_idx").innerHTML = this_q_idx + "/100";
             document.getElementById("str_q").innerHTML = kai_def[i];
             document.getElementById("pic_q").src = "./assets/db/img/"+kai_qidx[i]+".png";
             document.getElementById("pic_q").alt = kai_qidx[i];

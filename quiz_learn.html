@@ -100,19 +100,27 @@
             //adjust padding
             setTimeout(adjust_padding, 100);
         }
-
+        var genned = true;
         function gen_q(inc) {
-            if (this_q_idx % 100 == 0 && ! inc)
+            if (!genned) {
                 return;
-            else if (this_q_idx % 100 == 99 && inc)
-                return;
-            if(inc)
+            }
+            genned = false;
+        	if(inc)
                 this_q_idx += 1;
             else
                 this_q_idx -= 1;
-
+            if (this_q_idx % 100 == 0) {
+                document.getElementById("btn_last").disabled = "true";
+            } else if (this_q_idx % 100 == 99) {
+                document.getElementById("btn_next").disabled = "true";
+            } else {
+            	document.getElementById("btn_next").disabled = "";
+            	document.getElementById("btn_last").disabled = "";
+            }
             document.getElementById("now_q_idx").innerHTML = (this_q_idx) % 100 + 1 + "/100";
             goto_word(kai_qidx[this_q_idx],this_q_idx);
+            genned = true;
         }
 
     </script>
@@ -144,7 +152,7 @@
             <article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 20px 10px;">
 
                 <div id = "btn_last_div" style = "float: left;">
-                    <button type="button" style = "float: left;" id="btn_next" onclick="gen_q(false)" >上一題</button>
+                    <button type="button" style = "float: left;" id="btn_last" onclick="gen_q(false)" >上一題</button>
                 </div>
                 <div id = "btn_next_div" style = "float: right;">
                     <button type="button" style = "float: right;" id="btn_next" onclick="gen_q(true)" >下一題</button>
@@ -199,6 +207,14 @@
         function unhover(element) {
           element.setAttribute('src', "./assets/db/img/"+element.alt+".png");
         }
+        document.onkeydown = function(e){
+           if((e.keyCode == 37 || e.keyCode == 38) && (!document.getElementById("btn_last").disabled)){
+                gen_q(false);// submit
+           }
+           if((e.keyCode == 39 || e.keyCode == 40) && (!document.getElementById("btn_next").disabled)){
+                gen_q(true);// submit
+           }
+        };
         String.prototype.hexEncode = function(){
             var hex, i;
 

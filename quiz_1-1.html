@@ -137,9 +137,13 @@
             if (!genned) {
                 return;
             }
+            if (this_q_idx == 100) {
+                document.getElementById("btn_next").disabled = "true";
+                return
+            }
             genned = false;
             this_q_idx += 1;
-            this_char_idx = random_idx_ls[this_q_idx] + (level-1)*100;
+            this_char_idx = random_idx_ls[this_q_idx-1] + (level-1)*100;
             document.getElementById("pic_q").src = "./assets/db/img/"+kai_qidx[this_char_idx]+".png";
             document.getElementById("pic_q").alt = kai_qidx[this_char_idx];
             document.getElementById("pic_a").src = "./assets/db/img/"+zhuan_map_kai[kai_qidx[this_char_idx]]+".png";
@@ -219,8 +223,9 @@
                    if(e.keyCode == 13){
                         submit_ans();// submit
                    }
-                   if((e.keyCode == 39 || e.keyCode == 40 )&& (!document.getElementById("btn_next").disabled)){
+                   if((e.keyCode == 39 || e.keyCode == 40 )&& (!document.getElementById("btn_next").disabled))
                         gen_q();
+           
                 };
                 </script>
 			<script src="assets/js/jquery.min.js"></script>
