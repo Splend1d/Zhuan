@@ -5,14 +5,15 @@
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body align="center" onload = "greet()">
-	<script src = "./assets/db/db.js"></script>
-    <script src = "./assets/db/dbmajors.js"></script>
+	<script src = "./assets/db/dbessential.js"></script>
+    <script src = "./assets/db/dblearntree.js"></script>
+    <script src = "./assets/db/dbcomponents.js"></script>
     <script>
-        // var str_url = window.location.href;
-        // var this_url = new URL(str_url);
-        // var level = this_url.searchParams.get("level");
-        // if (!level)
-        //     level = 1;
+        var str_url = window.location.href;
+        var this_url = new URL(str_url);
+        var level = this_url.searchParams.get("level");
+        if (!level)
+            level = 1;
         //alert(level);
         function greet() {
             document.getElementById("user_input_div").style.display = "none";
@@ -46,7 +47,7 @@
         //     document.getElementById("str_res").innerHTML = kai_def[this_char_idx];
         // }
         function show_ans() {
-            document.getElementById("str_res").innerHTML = fontid_map_font[this_ans];
+            document.getElementById("str_res").innerHTML = this_ans;//fontid_map_font[this_ans];
             document.getElementById("btn_next").disabled = ""; //show next button
             document.getElementById("btn_submit").disabled = "true";
         }
@@ -58,18 +59,36 @@
         }
         function gen_q() {
             this_q_idx += 1;
-            do {
-                var rand_idx = Math.floor(Math.random() * available_majors.length);
-                this_ans = available_majors[rand_idx];
-                var n_photos = Math.floor((100 - this_q_idx)/25)+1;
-            } while(major_gen_q[this_ans].length < n_photos);
+            var rand_idx = Math.floor(Math.random() * available_majors.length);
+            this_ans = available_majors[rand_idx]; // this_ans is a character string
+            if (level == 1) {
+                var q_base_start = parseInt(major_gen_q[this_ans][0]) // starting index of choices
+                var q_base_depth = major_gen_q[this_ans][1] - major_gen_q[this_ans][0] + 1 // number of choices
+            }
+            var n_photos = Math.floor((100 - this_q_idx)/25)+1;
+            var q_base_selected = new Array();
+            while (q_base_selected.length < n_photos) {
+                var rand_idx = Math.floor(Math.random() * q_base_depth);
+                //alert(rand_idx);
+                //alert(q_base_selected[0]);
+                if (!q_base_selected.includes((rand_idx + q_base_start).toString())){
+                    q_base_selected.push((rand_idx + q_base_start).toString());
+                } else {
+                    continue;
+                }
+            }
+
+            var implement_if_needed_to_filter;
+            // do {
+            
+            // } while(zhuan_map_parent[this_ans].length < n_photos);
             document.getElementById("now_q_idx").innerHTML = (this_q_idx) % 100 + "/100";
             for (var i = 0; i < 4; i ++) {
                 if (i < n_photos) {
                     document.getElementById("pic_q"+(i+1).toString()).style["display"] = "";
                     document.getElementById("pic_q"+(i+1).toString()).style["display"] = "";
-                    document.getElementById("pic_q"+(i+1).toString()).src = "./assets/db/img/"+major_gen_q[this_ans][i]+".png";
-                    document.getElementById("pic_q"+(i+1).toString()).alt = major_gen_q[this_ans][i];
+                    document.getElementById("pic_q"+(i+1).toString()).src = "./assets/db/img/"+zhuanid_map_all[q_base_selected[i]]['fonts'][1][0]+".png";
+                    document.getElementById("pic_q"+(i+1).toString()).alt = zhuanid_map_all[q_base_selected[i]]['fonts'][1][0];
                 } else {
                     document.getElementById("pic_q"+(i+1).toString()).style["display"] = "none";
                     document.getElementById("pic_q"+(i+1).toString()).style["display"] = "none";
