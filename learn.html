@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <title>Guess that Zhuan</title>
     <link rel="stylesheet" href="assets/css/main.css" />
+    <script src = "./assets/db/essential.js"></script>
+    <script src = "./assets/db/fontmap.js"></script>
+    <script src = "./assets/db/tree.js"></script>
 </head>
 <body align = "center">
     <style type="text/css">
@@ -17,7 +20,7 @@
         var str_url = window.location.href;
         var this_url = new URL(str_url);
         var query = this_url.searchParams.get("query");
-
+        var thisidx = 1;
         function GenerateTable(query,ischild) {
             //Build an array containing Customer records.
             if (ischild)
@@ -69,35 +72,30 @@
             if (thiskey.length == 0) {
                 return;
             } else if (thiskey.length >= 1) {
-                if (!(thiskey in kai_dict)){
+                if (!(thiskey in h2z)){
                     canvas_clear();
                     document.getElementById("zhuan_def").innerHTML = thiskey + "不在我們的資料庫裡！";
                     adjust_padding();
                     return;
                 }
-                query_img = kai_dict[thiskey];
+                query_img = h2z[thiskey];
             } else { //TODO multitext support
-                query_img = kai_dict[thiskey][0];
+                query_img = h2z[thiskey][0];
             }
-            if (!(query_img in zhuan_map_def)){
-                canvas_clear();
-                document.getElementById("zhuan_def").innerHTML = thiskey + "不在我們的資料庫裡！";
-                adjust_padding();
-                return;
-            }
+            thisidx = z2i[h2z[thiskey]];
             goto_word(query_img);
         }
         function goto_word(query_img){
             //alert(query_img)
             document.getElementById("pic_zhuan").src = "./assets/db/img/"+query_img+".png";
             document.getElementById("pic_zhuan").alt = query_img;
-            document.getElementById("pic_kai").src = "./assets/db/img/"+zhuan_map_kai[query_img]+".png";
-            document.getElementById("pic_kai").alt = zhuan_map_kai[query_img];
+            document.getElementById("pic_kai").src = "./assets/db/img/"+z2k[query_img]+".png";
+            document.getElementById("pic_kai").alt = z2k[query_img];
             //document.getElementById("debugger").innerHTML = thiskey.length.toString();
-            document.getElementById("zhuan_def").innerHTML = zhuan_map_def[query_img];
+            document.getElementById("zhuan_def").innerHTML = zhuanid_map_all[z2i[query_img]]['meaning'];
             document.getElementById("zhuan_main").innerHTML = "部首";
-            document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+kai_dict[zhuan_map_main[query_img][3]]+".png";
-            document.getElementById("pic_zhuan_main").alt = kai_dict[zhuan_map_main[query_img][3]];
+            document.getElementById("pic_zhuan_main").src = "./assets/db/img/"+zhuanid_map_all[zhuanid_map_all[z2i[query_img]]['major']]['fonts'][1][0]+".png";
+            document.getElementById("pic_zhuan_main").alt = zhuanid_map_all[zhuanid_map_all[z2i[query_img]]['major']]['fonts'][1][0];
             document.getElementById("zhuan_child").innerHTML = "子部件";
             document.getElementById("zhuan_parent").innerHTML = "衍生字";
             document.getElementById("query").value = "";
@@ -108,36 +106,17 @@
         }
         function random_word(){
 
-            while(true) {
-                var randomIndex = Math.floor(Math.random() * Object.keys(kai_dict).length);
-                var thiskey = "";
-                for (var key in kai_dict) {
-                    // check if the property/key is defined in the object itself, not in parent
-
-                    if (kai_dict.hasOwnProperty(key)) {
-                        randomIndex -= 1;
-                    } else {
-                        continue;
-                    }
-                    if (randomIndex == 0) {
-                        thiskey = key;
-                        break;
-                    }
-                }
-                document.getElementById("query").value = thiskey
-                //thiskey = document.getElementById("query").value;
-                if (thiskey.length == 0) {
-                    return;
-                } else if (thiskey.length >= 1) {
-                    query_img = kai_dict[thiskey];
-                } else { //TODO multitext support
-                    query_img = kai_dict[thiskey];
-                }
-                if (!(query_img in zhuan_map_def)){
-                    continue;
-                } else {
-                    break;
-                }
+            var randomIndex = Math.floor(Math.random() * 9831)+1;
+            thisidx = randomIndex;
+            var thiskey = zhuanid_map_all[randomIndex]['han'][0]
+            document.getElementById("query").value = thiskey
+            //thiskey = document.getElementById("query").value;
+            if (thiskey.length == 0) {
+                return;
+            } else if (thiskey.length >= 1) {
+                query_img = zhuanid_map_all[randomIndex]['fonts'][1][0];
+            } else { //TODO multitext support
+                query_img = zhuanid_map_all[randomIndex]['fonts'][1][0];
             }
             goto_word(query_img);
         }
@@ -222,15 +201,45 @@
         adjust_padding();
         function canvas_clear(){
             var canvas = document.getElementById("canvas");
-            canvas.innerHTML = String.raw `<article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 10px;"><div style = "float: left;"><a href="game_character.html" style =""><button style = "float: left;">回遊戲選單</button></a></div><div id = "btn_next_div" style = "float: right;"><button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button></div><div><p id="now_q_idx" align="center"></p></div><div><img id="pic_zhuan" src="" alt = "" width="27.5%"><img id="pic_kai" src="" alt = "" width="27.5%"></div><div id = "debugger"></div><div id = "zhuan_def" style="font-size: 24px;"></div><div id = "zhuan_main" style="font-size: 24px;"></div></article>`;
+            canvas.innerHTML = String.raw `<article class="box" style="background-color: rgba(255, 255, 255, 0.7); color: black; padding: 20px 10px;">
+
+                <!--div style = "float: left;"><a href="game_character.html" style =""><button style = "float: left;">回遊戲選單</button></a></div>
+                <div id = "btn_next_div" style = "float: right;">
+                    <button type="button" style = "float: right;" id="btn_next" onclick="gen_q()" >下一題</button>
+                </div>
+                <div>
+                    <p id="now_q_idx" align="center"></p>
+                </div-->
+                <div>
+                    <img id="pic_zhuan" src="" alt = "" width="27.5%">
+                    <img id="pic_kai" src="" alt = "" width="27.5%">
+                </div>
+                <div id = "debugger"></div>
+                <div id = "zhuan_def" style="font-size: 40px;"></div>
+                <div id = "zhuan_main" style="font-size: 24px;"></div>
+                <div>
+                    <img id="pic_zhuan_main" src="" alt = "" width="27.5%" onclick = "goto_word(this.alt)" onmouseover = "hover(this)" onmouseout = "unhover(this)" style = "height:100px;width:100px;">
+                </div>
+                <div id = "zhuan_child" style="font-size: 24px;"></div>
+                <div id="pic_zhuan_child" align="center"></div>
+                <div id = "zhuan_parent" style="font-size: 24px;"></div>
+                <div id="pic_zhuan_parent" align="center"></div>
+
+            </article>`;
 
         }
         function hover(element) {
-          element.setAttribute('src', "./assets/db/img/"+zhuan_map_kai[element.alt]+".png");
+          element.setAttribute('src', "./assets/db/img/"+z2k[element.alt]+".png");
         }
         function unhover(element) {
           element.setAttribute('src', "./assets/db/img/"+element.alt+".png");
         }
+        document.onkeydown = function(e){
+           if(e.keyCode == 13){
+                find_word();// submit
+           }
+           
+        };
 
     </script>
             <!-- Scripts -->
@@ -240,9 +249,7 @@
     <script src="assets/js/skel.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
-    <script src = "./assets/db/db.js"></script>
-    <script src = "./assets/db/dblearn.js"></script>
-    <script src = "./assets/db/dblearntree.js"></script>
+    
 
 </body>
 </html>
