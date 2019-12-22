@@ -7,40 +7,83 @@ with open("../db/main.json", "r") as f:
 
 with open("../db/treechild.json", "r") as f:
     child = json.load(f)
-with open("../db/treechild.json", "r") as f:
+with open("../db/treeparent.json", "r") as f:
     parent = json.load(f)
-
+with open("../db/fontmap.json", "r") as f: #for human eye evaluation
+    fontmap = json.load(f)
 print(dbf)
 
 # change order by number of parts
+# get zhuanid mapping
 z3000 = []
+unuseid = [x for x in range(1,9832)]
 for k in dbf:
 	z = db[k]['fonts'][1][0]
 	z3000.append([z,k])
-z3000_sorted = []
-for z,k in z3000:
-	if len(child[z]) == 1 and db[k]['major'] == k:
-		z3000_sorted.append([z,k])
-z3000_sorted = sorted(z3000_sorted,key = lambda v:v[1])
+	unuseid.remove(int(k))
+print(len(unuseid))
+zhuan2id = {db[k]['fonts'][1][0]:k for k in db}
+# remove unused child
+unusedzhuan = []
+for k in unuseid:
+	z = db[str(k)]['fonts'][1][0]
+	unusedzhuan.append(z)
+print(sum([len(c) for c in child]))
+for z in unusedzhuan:
+	del child[z]
+print(sum([len(c) for c in child.values()]))
 
-for z,k in z3000:
-	if len(child[z]) == 1 and [z,k] not in z3000_sorted:
-		z3000_sorted.append([z,k])
-while(len(z3000_sorted)!=len(z3000)):
-	newed = False
+
+z3000_sorted = [[]]
+depth = 0
+rank = {k:len(v) for k,v in parent.items() if k in child} # for sort
+while(len(child)!=0):
 	for z,k in z3000:
-		if [z,k] not in z3000_sorted:
-			for c in child[z]:
-				if c not in [x[0] for x in z3000_sorted]:
-					break
-				z3000_sorted.append([z,k])
-				print("+")
-				newed = True
-	print(len(z3000_sorted))
+		try:
+			if len(child[z]) == 1:
+				z3000_sorted[depth].append([z,k])
+				print("parsed",fontmap['z2h'][z],depth)
+			
+		except:
+			pass # already parsed
+	news = [x[0] for x in z3000_sorted[depth]]
+	for z in news:
+		del child[z]
+	for z in news:
+		for k,v in child.items():
+			child[k] = list(filter(lambda a: a != z, child[k]))
+	if depth == 1:
+		for z in unusedzhuan:
+			for k,v in child.items():
+				child[k] = list(filter(lambda a: a != z, child[k]))
+				
+	if (len(z3000_sorted[-1]) == 0):
+		child_sort = sorted(list(child.keys()), key = lambda a :rank[a],reverse = True)
+		z3000_sorted[depth].append([child_sort[0],zhuan2id[child_sort[0]]])
+		#print(parent[child_sort[0]])
+		print("parsed",fontmap['z2h'][child_sort[0]],depth)
+		del child[child_sort[0]]
+		for k,v in child.items():
+			child[k] = list(filter(lambda a: a != child_sort[0], child[k]))
+	depth += 1
+	z3000_sorted.append([])
+print(depth)	
+print([len(x) for x in z3000_sorted])
+#print(child)
+print(sum([len(x) for x in z3000_sorted]))
+
+z3000_sorted_fine = [sorted(x,key = lambda v:v[1]) for x in z3000_sorted]
+print(z3000_sorted_fine)
+z3000 = []
+for depth in z3000_sorted_fine:
+	for e in depth:
+		z3000.append(e[1])
 print(z3000)
 
+
+
 def3000 = []
-for i in dbf:
+for i in z3000:
 	def3000.append([db[str(i)]['meaning'].replace(db[str(i)]["han"][0],'@'),db[str(i)]["han"][0]])
 with open("../db/freq3000.js", "w", encoding="utf8") as f:
     f.write("var freq3000 =")

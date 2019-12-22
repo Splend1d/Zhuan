@@ -79,6 +79,17 @@ for w in mainchars:
 		print("added2:",zhuan_map_han[w])
 print(len(get_child))
 print(len(get_parent))
+#patch self self
+for k,v in get_child.items():
+	if k not in v:
+		get_child[k].append(k)
+		print("added self",zhuan_map_han[k])
+		print(get_child[k])
+for k,v in get_parent.items():
+	if k not in v:
+		get_parent[k].append(k)
+		print("added self2",zhuan_map_han[k])
+
 #patch major
 for w in mainchars:
 	for w2 in dbmain.values():
