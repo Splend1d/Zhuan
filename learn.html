@@ -19,7 +19,7 @@
     <script>
         var str_url = window.location.href;
         var this_url = new URL(str_url);
-        var query = this_url.searchParams.get("query");
+
         var thisidx = 1;
         function GenerateTable(query,ischild) {
             //Build an array containing Customer records.
@@ -185,6 +185,11 @@
         </div>
     </section>
     <script type="text/javascript">
+        var query = this_url.searchParams.get("query");
+        if (query) {
+            document.getElementById("query").value = query;
+            find_word();
+        }
         //initialize padding
         function adjust_padding() {
             var wheight = window.innerHeight;

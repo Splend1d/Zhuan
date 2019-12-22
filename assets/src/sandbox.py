@@ -1,4 +1,6 @@
-x = [1,2,3,4,5]
-for i in  x:
-	i = 0
-print(x)
+import pickle as pkl
+import json
+
+with open("../db/font.pkl","rb") as f:
+	db = pkl.load(f)
+print(db)

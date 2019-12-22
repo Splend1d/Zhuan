@@ -115,7 +115,7 @@ class Crawler():
         
 c = Crawler()
 
-# c.get_basic()
+c.get_basic()
 # need to get self.majors first!!
 with open("../db/majors.pkl", "rb") as f:
     c.majors = pkl.load(f)
