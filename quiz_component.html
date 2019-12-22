@@ -5,9 +5,11 @@
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body align="center" onload = "">
-	<script src = "./assets/db/dbessential.js"></script>
-    <script src = "./assets/db/dblearntree.js"></script>
-    <script src = "./assets/db/dbcomponents.js"></script>
+	<script src = "./assets/db/essential.js"></script>
+    <script src = "./assets/db/tree.js"></script>
+    <script src = "./assets/db/components.js"></script>
+    <script src = "./assets/db/fontmap.js"></script>
+    <script src = "./assets/db/freq100000.js"></script>
     <script>
         var str_url = window.location.href;
         var this_url = new URL(str_url);
@@ -20,6 +22,7 @@
         // }
         var this_q_idx = 0;
         var this_ans = "水";
+        var this_ans_font = "27.6C34";
         var available_majors = select_major;
         function submit_ans() {
             
@@ -32,7 +35,7 @@
                 alert("請輸入值！");
                 return;
             }
-            if (b == this_ans) {
+            if (b in this_ans) {
                 document.getElementById("str_res").innerHTML = "答案正確！";
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
                 //document.getElementById("btn_next_div").style.display = "";
@@ -57,17 +60,41 @@
             if (ansed) {
                 return;
             }
+            
             //fontid_map_font[this_ans];
             document.getElementById("btn_next").disabled = ""; //show next button
             document.getElementById("btn_submit").disabled = "true";
-            document.getElementById("str_res").innerHTML = this_ans;
+            document.getElementById("str_res").innerHTML = this_ans
+            if (level != 1 && gen_q_1ed){
+                var enterable = []
+                for (var i = 0; i < zhuan_map_parent[this_ans_font].length;i++){
+                    if (document.getElementById("pic_q1").alt == zhuan_map_parent[this_ans_font][i])
+                        continue;
+                    if (document.getElementById("pic_q2").alt == zhuan_map_parent[this_ans_font][i])
+                        continue;
+                    if (document.getElementById("pic_q3").alt == zhuan_map_parent[this_ans_font][i])
+                        continue;
+                    if (document.getElementById("pic_q4").alt == zhuan_map_parent[this_ans_font][i])
+                        continue;
+                    if (! (zhuan_map_parent[this_ans_font][i] in freq100000))
+                        continue
+                    enterable.push(z2h[zhuan_map_parent[this_ans_font][i]])
+                }
+                document.getElementById("str_res").innerHTML += "，可輸入：" +enterable.join("、");
+            }
+            
+            document.getElementById("img_res").src = "./assets/db/img/"+this_ans_font+".png";
+            document.getElementById("img_res").alt = this_ans_font;
+            document.getElementById("img_res").style.display = "";
         }
+        var gen_q_1ed = false;
         function gen_q_1() {
             document.getElementById("user_input_div").style.display = "";
             document.getElementById("btn_ok").style.display = "none";
             document.getElementById("btn_next").style.display = "";
             document.getElementById("meassage_ex").style.display = "none";
             document.getElementById("now_q_idx").style.display = "";
+            gen_q_1ed = true;
             gen_q();
         }
         var genned = true;
@@ -81,25 +108,56 @@
             }
             genned = false;
             this_q_idx += 1;
-            var rand_idx = Math.floor(Math.random() * available_majors.length);
-            this_ans = available_majors[rand_idx]; // this_ans is a character string
+             // this_ans is a character string
+
             if (level == 1) {
+                var rand_idx = Math.floor(Math.random() * available_majors.length);
+                this_ans = available_majors[rand_idx];
+                this_ans_font = zhuanid_map_all[major_gen_q[this_ans][0]]['fonts'][1][0];
                 var q_base_start = parseInt(major_gen_q[this_ans][0]) // starting index of choices
                 var q_base_depth = major_gen_q[this_ans][1] - major_gen_q[this_ans][0] + 1 // number of choices
+                
+            } else if (level == 2) {
+                var q_base_start = 0
+                
+                var rand_idx = Math.floor(Math.random() * select_2.length);
+                this_ans = z2h[select_2[rand_idx]];
+                this_ans_font = select_2[rand_idx]
+                var q_base = zhuan_map_parent[select_2[rand_idx]];
+                var q_base_depth = zhuan_map_parent[select_2[rand_idx]].length-1;
+            } else if (level == 3) {
+                var q_base_start = 0
+                var rand_idx = Math.floor(Math.random() * select_3.length);
+                this_ans = z2h[select_3[rand_idx]];
+                this_ans_font = select_3[rand_idx]
+                var q_base_depth = zhuan_map_parent[select_3[rand_idx]].length-1;
             }
-            var n_photos = Math.floor((100 - this_q_idx)/25)+2;
+            var n_photos = 5//Math.floor((100 - this_q_idx)/25)+2;
             var q_base_selected = new Array();
             while (q_base_selected.length < n_photos) {
-                var rand_idx = Math.floor(Math.random() * q_base_depth);
+                var rand_idx_q = Math.floor(Math.random() * q_base_depth);
                 //alert(rand_idx);
                 //alert(q_base_selected[0]);
-                if (!q_base_selected.includes((rand_idx + q_base_start).toString())){
-                    q_base_selected.push((rand_idx + q_base_start).toString());
+                if (!q_base_selected.includes((rand_idx_q + q_base_start).toString())){
+                    q_base_selected.push((rand_idx_q + q_base_start).toString());
                 } else {
                     continue;
                 }
             }
-
+            
+            if (level == 1) {
+                for (var i = 0; i < q_base_selected.length; i++){
+                    q_base_selected[i] = zhuanid_map_all[q_base_selected[i]]['fonts'][1][0];
+                }
+            } else if (level == 2) {
+                for (var i = 0; i < q_base_selected.length; i++){
+                    q_base_selected[i] = zhuan_map_parent[select_2[rand_idx]][parseInt(q_base_selected[i])+1];
+                }
+            } else if (level == 3) {
+                for (var i = 0; i < q_base_selected.length; i++){
+                    q_base_selected[i] = zhuan_map_parent[select_3[rand_idx]][parseInt(q_base_selected[i])+1];
+                }
+            }
             var implement_if_needed_to_filter;
             // do {
             
@@ -109,8 +167,8 @@
                 if (i < n_photos) {
                     document.getElementById("pic_q"+(i+1).toString()).style["display"] = "";
                     document.getElementById("pic_q"+(i+1).toString()).style["display"] = "";
-                    document.getElementById("pic_q"+(i+1).toString()).src = "./assets/db/img/"+zhuanid_map_all[q_base_selected[i]]['fonts'][1][0]+".png";
-                    document.getElementById("pic_q"+(i+1).toString()).alt = zhuanid_map_all[q_base_selected[i]]['fonts'][1][0];
+                    document.getElementById("pic_q"+(i+1).toString()).src = "./assets/db/img/"+q_base_selected[i]+".png";
+                    document.getElementById("pic_q"+(i+1).toString()).alt = q_base_selected[i];
                 } else {
                     document.getElementById("pic_q"+(i+1).toString()).style["display"] = "none";
                     document.getElementById("pic_q"+(i+1).toString()).style["display"] = "none";
@@ -129,6 +187,7 @@
 
             document.getElementById("user_input_div").style.display = "";
             document.getElementById("str_res").innerHTML = ""//kai_qidx[this_char_idx];
+            document.getElementById("img_res").style.display = "none";
             //-- DEBUG
             document.getElementById("user_input").value = "";
             document.getElementById("btn_next").disabled = "true";
@@ -173,7 +232,7 @@
                         <img id="pic_q5" src="./assets/db/img/27.6CEB.png" alt = "27.6FC1" width="27.5%" style = "height:150px;width:150px;">
                     </div>
                     <div>
-                        <p id="meassage_req" style="text-align: center; font-size: 24pt; font-weight: bold; margin: 0 0 0 0;">請輸入這些小篆文字的共同部首,或此部首其他的字</p>
+                        <p id="meassage_req" style="text-align: center; font-size: 24px; font-weight: bold; margin: 0 0 0 0;">請輸入這些小篆文字的共同部首,或此部首其他的字</p>
                     </div>
                     <!--style="visibility:hidden;width:50px;height:50px;"-->
                     <div id="user_input_div">
@@ -185,8 +244,11 @@
                         <button id="btn_show" onclick="show_ans()">公布答案</button>
 
                     </div>
-
+                    <div style="padding: 20px 0 0 0">
+                        <img id = "img_res" src = "./assets/db/img/27.6C34.png" alt = "27.6C34" style = "height:150px;width:150px;display: none"></img>
+                    </div>
                     <p id="str_res" style="padding: 10px; font-size:24px; font-weight: bold; color: rgb(0,0,0);"></p>
+
                 </article>
             </div>
         </section>
@@ -198,6 +260,9 @@
                 submit_ans();// submit
            }
            if((e.keyCode == 39 || e.keyCode == 40) && (!document.getElementById("btn_next").disabled)){
+                gen_q();// submit
+           }
+           if(e.keyCode == 37){
                 gen_q();// submit
            }
            
