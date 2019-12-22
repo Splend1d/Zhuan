@@ -1,9 +1,21 @@
 import json
+with open("../db/main.json", "r") as f:
+    db = json.load(f)
+with open("../db/freq100000.json", "r") as f:
+    db100000 = json.load(f)
+
+z100000 = {db[e]['fonts'][1][0]:""  for e in db100000}
+
+
+with open("../db/freq100000.js", "w", encoding="utf8") as f:
+    f.write("var freq100000 =")
+    f.write(str(z100000))
+    f.write(';')
 
 with open("../db/freq3000.json", "r") as f:
     dbf = json.load(f)
-with open("../db/main.json", "r") as f:
-    db = json.load(f)
+
+
 
 with open("../db/treechild.json", "r") as f:
     child = json.load(f)
@@ -92,4 +104,7 @@ with open("../db/freq3000.js", "w", encoding="utf8") as f:
     f.write("var def3000 =") #masked
     f.write(str(def3000))
     f.write(';\n')
+
+
+
 
