@@ -11,12 +11,21 @@
                 //alert("d")
                 setTimeout(function () { window.location = '#'+URL; }, 1000);
                 document.getElementById(URL).scrollIntoView({ behavior: "smooth" });
-
+                //setTimeout(function () { window.location = '#'+URL; }, 1000);
+                
             }
+            function url_go(URL) {
+                //setTimeout(function () { window.location = '#'+URL; }, 1000);
+                
+	            document.getElementById(URL.split('#')[1]).scrollIntoView({ behavior: "smooth" });
+
+            	
+            }
+            
          </script>
 
 	</head>
-	<body>
+	<body onload = "url_go(window.location.href)">
 
 		<!-- Header -->
 			<header id="header">
