@@ -35,7 +35,7 @@
                 alert("請輸入值！");
                 return;
             }
-            if (b in this_ans) {
+            if (zhuan_map_parent[this_ans_font].includes(h2z[b])) {
                 document.getElementById("str_res").innerHTML = "答案正確！";
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
                 //document.getElementById("btn_next_div").style.display = "";
