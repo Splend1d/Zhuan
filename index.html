@@ -12,16 +12,16 @@
                 setTimeout(function () { window.location = '#'+URL; }, 1000);
                 document.getElementById(URL).scrollIntoView({ behavior: "smooth" });
                 //setTimeout(function () { window.location = '#'+URL; }, 1000);
-                
+
             }
             function url_go(URL) {
                 //setTimeout(function () { window.location = '#'+URL; }, 1000);
-                
+
 	            document.getElementById(URL.split('#')[1]).scrollIntoView({ behavior: "smooth" });
 
-            	
+
             }
-            
+
          </script>
 
 	</head>
@@ -94,7 +94,7 @@
 						<div class="content">
                             <h5>---------------------------------------------------------------------------</h5>
                         </div>
-						<div class="content">	
+						<div class="content">
 							<a href="component.html" class="button alt" style="font-size: 20px;">部件學習</a>
 							<p style="font-size: 15pt; margin: 15px 0 15px ;">使用你的推理能力，從觀察中學習吧！</p>
                         </div>
@@ -107,12 +107,32 @@
 						</div>
 					</article>
 				</div>
+            </section>
+            <footer id="footer" data-bg="banner5.jpg">
+                <div class="inner">
+
+                    <h2>專案成員<br>許湛然、張鈺琳、蔡采吟<br>賜教email：a24998667@gmail.com</h2>
+
+                    <div style= "text-align:center"><img onclick="outer()" src = "./images/githubicon.png" style="height: 100px; width: 100px;"></div>
+
+
+                    <div class="copyright">
+                        &copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.
+                    </div>
+
+                </div>
+            </footer>
 
 
 
 
 
 		<!-- Scripts -->
+            <script type="text/javascript">
+                function outer() {
+                    window.open('https://github.com/Splend1d/Zhuan', '_blank');
+                }
+            </script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
