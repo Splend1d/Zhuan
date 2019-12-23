@@ -54,7 +54,7 @@
 			the background image.
 		-->
 			<section id="post" class="wrapper bg-img" data-bg="banner2.jpg">
-				<div class="inner">
+				<div id="canvas" class="inner">
 					<article class="box" style="padding-bottom: 30px;">
 						<header align="center">
 							<h2>部件學習</h2>
@@ -83,6 +83,22 @@
 
 
 		<!-- Scripts -->
+			<script type="text/javascript">
+				function adjust_padding() {
+		            var wheight = window.innerHeight;
+		            var heading = document.getElementById("post");
+		            var canvas = document.getElementById("canvas");
+		            var eheight = canvas.offsetHeight;
+		            var to_pad = wheight - eheight - 210;
+		            if (to_pad <= 120)
+		                to_pad = 120;
+		            alert(to_pad)
+		            var to_pad_str = to_pad.toString()+"px";
+		            heading.style["padding-bottom"] = to_pad_str;
+		            window.scrollTo(0,0);
+		        }
+		        adjust_padding();
+			</script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
