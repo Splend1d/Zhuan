@@ -10,6 +10,9 @@
         padding: 0px;
         color: black;
     }
+    [onClick] {
+        cursor:pointer;
+    }
     </style>
 </head>
 <body align="center" onload = gen_q_0()>
@@ -194,6 +197,7 @@
             //alert(images.length);
             for (var k = 0;k < images.length; k++) {
                 images[k].onclick = function() {outer(this.alt);};
+                images[k].style.cursor = "pointer";
             }
 
             //document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];

@@ -3,6 +3,11 @@
     <meta charset="utf-8" />
     <title>直接試身手 - 單字學習 | 篆來篆去</title>
     <link rel="stylesheet" href="assets/css/main.css" />
+    <style type="text/css">
+        [onClick] {
+            cursor:pointer;
+        }
+    </style>
 </head>
 <body align="center" >
 	<script src = "./assets/db/freq3000.js"></script>
@@ -131,11 +136,14 @@
             //alert(images.length);
             for (var k = 0;k < images.length; k++) {
                 images[k].onclick = function() {outer(this.alt);};
+                images[k].style.cursor = "pointer";
             }
             var i1 = document.getElementById('pic_q');
             var i2 = document.getElementById('pic_a');
             i1.onclick = function() {outer(this.alt);};
+            i1.style.cursor = "pointer";
             i2.onclick = function() {outer(i1.alt);};
+            i2.style.cursor = "pointer";
             ansed = true;
         }
         function gen_q_1() {

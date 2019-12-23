@@ -8,7 +8,11 @@
     <script src = "./assets/db/freq3000.js"></script>
     <script src = "./assets/db/tree.js"></script>
     <script src = "./assets/db/fontmap.js"></script>
-
+    <style type="text/css">
+        [onClick] {
+            cursor:pointer;
+        }
+    </style>
 </head>
 <body align = "center">
 
@@ -60,6 +64,7 @@
                     const isEqual = (element) => element == pics[i][j];
                     var k = def3000.findIndex(isEqual);
                     img_inc.onclick = function() {goto_word(this.alt,k);};
+                    img_inc.style.cursor = "pointer";
                     img_inc.onmouseover = function() {hover(this);};
                     img_inc.onmouseout = function() {unhover(this);};
                     cell.appendChild(img_inc);

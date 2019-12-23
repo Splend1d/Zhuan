@@ -7,6 +7,11 @@
     <script src = "./assets/db/essential.js"></script>
     <script src = "./assets/db/fontmap.js"></script>
     <script src = "./assets/db/tree.js"></script>
+    <style type="text/css">
+        [onClick] {
+            cursor:pointer;
+        }
+    </style>
 </head>
 <body align = "center">
     <style type="text/css">
@@ -55,6 +60,7 @@
                     img_inc.alt = pics[i][j];
                     img_inc.style = "height:100px;width:100px;";
                     img_inc.onclick = function() {goto_word(this.alt);};
+                    img_inc.style.cursor = "pointer";
                     img_inc.onmouseover = function() {hover(this);};
                     img_inc.onmouseout = function() {unhover(this);};
                     cell.appendChild(img_inc);

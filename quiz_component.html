@@ -3,6 +3,11 @@
     <meta charset="utf-8" />
     <title>Guess that Zhuan</title>
     <link rel="stylesheet" href="assets/css/main.css" />
+    <style type="text/css">
+        [onClick] {
+            cursor:pointer;
+        }
+    </style>
 </head>
 <body align="center" onload = "">
 	<script src = "./assets/db/essential.js"></script>
@@ -89,8 +94,10 @@
             var imgs =  document.getElementsByClassName("q")
             for (var i = 0; i < imgs.length ; i++){
                 imgs[i].onclick = function() {outer(this.alt);};
+                imgs[i].style.cursor = "pointer";
             }
             document.getElementById("img_res").onclick = function() {outer(this.alt);};
+            document.getElementById("img_res").style.cursor = "pointer";
         }
         var gen_q_1ed = false;
         function gen_q_1() {
@@ -179,6 +186,11 @@
                     document.getElementById("pic_q"+(i+1).toString()).style["display"] = "none";
                 }
 
+            }
+            var imgs =  document.getElementsByClassName("q")
+            for (var i = 0; i < imgs.length ; i++){
+                imgs[i].onclick = function() {};
+                imgs[i].style.cursor = "";
             }
             document.getElementById("str_res").innerHTML = "";
 
