@@ -25,7 +25,7 @@
         var this_ans_font = "27.6C34";
         var available_majors = select_major;
         function submit_ans() {
-            
+
             if (ansed) {
                 return;
             }
@@ -60,7 +60,7 @@
             if (ansed) {
                 return;
             }
-            
+
             //fontid_map_font[this_ans];
             document.getElementById("btn_next").disabled = ""; //show next button
             document.getElementById("btn_submit").disabled = "true";
@@ -82,10 +82,15 @@
                 }
                 document.getElementById("str_res").innerHTML += "，亦可輸入：" +enterable.join("、");
             }
-            
+
             document.getElementById("img_res").src = "./assets/db/img/"+this_ans_font+".png";
             document.getElementById("img_res").alt = this_ans_font;
             document.getElementById("img_res").style.display = "";
+            var imgs =  document.getElementsByClassName("q")
+            for (var i = 0; i < imgs.length ; i++){
+                imgs[i].onclick = function() {outer(this.alt);};
+            }
+            document.getElementById("img_res").onclick = function() {outer(this.alt);};
         }
         var gen_q_1ed = false;
         function gen_q_1() {
@@ -116,10 +121,10 @@
                 this_ans_font = zhuanid_map_all[major_gen_q[this_ans][0]]['fonts'][1][0];
                 var q_base_start = parseInt(major_gen_q[this_ans][0]) // starting index of choices
                 var q_base_depth = major_gen_q[this_ans][1] - major_gen_q[this_ans][0] + 1 // number of choices
-                
+
             } else if (level == 2) {
                 var q_base_start = 0
-                
+
                 var rand_idx = Math.floor(Math.random() * select_2.length);
                 this_ans = z2h[select_2[rand_idx]];
                 this_ans_font = select_2[rand_idx]
@@ -144,7 +149,7 @@
                     continue;
                 }
             }
-            
+
             if (level == 1) {
                 for (var i = 0; i < q_base_selected.length; i++){
                     q_base_selected[i] = zhuanid_map_all[q_base_selected[i]]['fonts'][1][0];
@@ -160,7 +165,7 @@
             }
             var implement_if_needed_to_filter;
             // do {
-            
+
             // } while(zhuan_map_parent[this_ans].length < n_photos);
             document.getElementById("now_q_idx").innerHTML = (this_q_idx) + "/100";
             for (var i = 0; i < 5; i ++) {
@@ -225,11 +230,11 @@
 
                     </div>
                     <div>
-                        <img id="pic_q1" src="./assets/db/img/27.6DAA.png" alt = "27.6DAA" width="27.5%" style = "height:150px;width:150px;">
-                        <img id="pic_q2" src="./assets/db/img/27.6CB3.png" alt = "27.6CB3" width="27.5%" style = "height:150px;width:150px;">
-                        <img id="pic_q3" src="./assets/db/img/27.6ECE.png" alt = "27.6ECE" width="27.5%" style = "height:150px;width:150px;">
-                        <img id="pic_q4" src="./assets/db/img/27.6CEB.png" alt = "27.6CEB" width="27.5%" style = "height:150px;width:150px;">
-                        <img id="pic_q5" src="./assets/db/img/27.6CEB.png" alt = "27.6FC1" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q1" class = "q" src="./assets/db/img/27.6DAA.png" alt = "27.6DAA" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q2"  class = "q" src="./assets/db/img/27.6CB3.png" alt = "27.6CB3" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q3"  class = "q" src="./assets/db/img/27.6ECE.png" alt = "27.6ECE" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q4"  class = "q" src="./assets/db/img/27.6CEB.png" alt = "27.6CEB" width="27.5%" style = "height:150px;width:150px;">
+                        <img id="pic_q5"  class = "q" src="./assets/db/img/27.6CEB.png" alt = "27.6FC1" width="27.5%" style = "height:150px;width:150px;">
                     </div>
                     <div>
                         <p id="meassage_req" style="text-align: center; font-size: 24px; font-weight: bold; margin: 0 0 0 0;">請輸入這些小篆文字的共同部首(或部件),或此部首其他的字</p>
@@ -256,17 +261,20 @@
         <!-- Scripts -->
         <script type="text/javascript">
         document.onkeydown = function(e){
-           if(e.keyCode == 13){
+            if(e.keyCode == 13){
                 submit_ans();// submit
-           }
-           if((e.keyCode == 39 || e.keyCode == 40) && (!document.getElementById("btn_next").disabled)){
+            }
+            if((e.keyCode == 39 || e.keyCode == 40) && (!document.getElementById("btn_next").disabled)){
                 gen_q();// submit
-           }
-           if(e.keyCode == 37){
+            }
+            if(e.keyCode == 37){
                 gen_q();// submit
-           }
-           
+            }
+
         };
+        function outer(zhuan) {
+            window.open('learn.html?query='+z2h[zhuan], '_blank');
+        }
         </script>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jquery.scrolly.min.js"></script>

@@ -8,6 +8,7 @@
 	<script src = "./assets/db/freq3000.js"></script>
     <script src = "./assets/db/essential.js"></script>
     <script src = "./assets/db/tree.js"></script>
+    <script src = "./assets/db/fontmap.js"></script>
     <script>
         // function greet() {
         //     document.getElementById("btn_next").disabled = "true";
@@ -118,11 +119,23 @@
             //     images[k].src = "./assets/db/img/"+zhuan_map_kai[images[k].alt]+".png";
             //     images[k].alt = zhuan_map_kai[images[k].alt];
             // }
+            if (!hinted)
+                show_hint();
+
             document.getElementById("btn_next").disabled = ""; //show next button
             document.getElementById("btn_submit").disabled = "true";
-            
+
             document.getElementById("pic_a").style.display = "";
             document.getElementById("str_res").innerHTML = "";
+            var images = document.getElementById('t0').getElementsByTagName('img');
+            //alert(images.length);
+            for (var k = 0;k < images.length; k++) {
+                images[k].onclick = function() {outer(this.alt);};
+            }
+            var i1 = document.getElementById('pic_q');
+            var i2 = document.getElementById('pic_a');
+            i1.onclick = function() {outer(this.alt);};
+            i2.onclick = function() {outer(i1.alt);};
             ansed = true;
         }
         function gen_q_1() {
@@ -133,7 +146,7 @@
             gen_q();
         }
         var this_char_idx = 0;
-        var genned = true; 
+        var genned = true;
         function gen_q() {
             if (!genned) {
                 return;
@@ -227,8 +240,11 @@
                    }
                    if((e.keyCode == 39 || e.keyCode == 40 )&& (!document.getElementById("btn_next").disabled))
                         gen_q();
-           
+
                 };
+                function outer(zhuan) {
+                    window.open('learn.html?query='+z2h[zhuan], '_blank');
+                }
                 </script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>

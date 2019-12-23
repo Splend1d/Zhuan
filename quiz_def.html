@@ -1,4 +1,4 @@
-<html lang="zh-Hant-TW" >
+<html lang="zh-Hant-TW">
 <head>
     <meta charset="utf-8" />
     <title>古代練功坊 - 單字學習 | 篆來篆去</title>
@@ -120,7 +120,9 @@
                         var img_inc = document.createElement("img");
                         img_inc.src = "./assets/db/img/"+pic_def[i][j]+".png";
                         img_inc.alt = pic_def[i][j];
-                        img_inc.style = "height:100px;width:100px;"
+                        img_inc.style = "height:100px;width:100px;";
+
+
                         //alert("here")
                         cell.appendChild(img_inc);
                     }
@@ -140,7 +142,7 @@
                 return;
             }
             var b = user_input.value;
-            if (b == kai_ans[this_char_idx]) {
+            if (b == freq3000[this_char_idx]) {
                 document.getElementById("str_res").innerHTML = "答案正確！";
                 //document.getElementById("btn_next").innerHTML = "<button onclick=gen_q()>Next</button>";
                 //document.getElementById("btn_next_div").style.visibility = "";
@@ -188,6 +190,11 @@
                     tds[t].innerHTML = changeHTML;
                 }
             }
+            var images = document.getElementById('t0').getElementsByTagName('img');
+            //alert(images.length);
+            for (var k = 0;k < images.length; k++) {
+                images[k].onclick = function() {outer(this.alt);};
+            }
 
             //document.getElementById("str_res").innerHTML = kai_ans[this_char_idx];
             document.getElementById("btn_next").disabled = ""; //show next button
@@ -196,7 +203,7 @@
             ansed = true;
         }
         function gen_q_0() {
-            this_char_idx = 2056;
+            this_char_idx = 2256;
             change_q(this_char_idx);
         }
         function gen_q_1() {
@@ -206,7 +213,7 @@
 
             gen_q();
         }
-        var genned = true; 
+        var genned = true;
         var this_char_idx = 0;
         function gen_q() {
             if (!genned) {
@@ -264,7 +271,7 @@
     </div>
     <div class = "above_q" >
         <p id="now_q_idx" style="font-size: 24pt; display: none" text-align="center"></p>
-        <p id="meassage_ex" style="font-size: 24pt;" text-align="center"><br>~說明~<br> 每題題目為一段《說文》內容，<br>請猜出題目描述的是哪一個字<br>輸入您的答案，答對後可進入下一關<br>如此題答案為 「瓊」<br>當代眼藥水 按鈕為求救道具<br>可以暫時穿越時光，來到楷書時代。<br>此時將滑鼠聚焦在字上，會有神奇的事情發生！<br><button id="btn_ok" onclick="gen_q_1()">我了解了</button>
+        <p id="meassage_ex" style="font-size: 24pt;" text-align="center"><br>~說明~<br> 每題題目為一段《說文》內容，<br>請猜出題目描述的是哪一個字<br>輸入您的答案，答對後可進入下一關<br>如此題答案為 「涇」<br>當代眼藥水 按鈕為求救道具<br>可以暫時穿越時光，來到楷書時代。<br>此時將滑鼠聚焦在字上，會有神奇的事情發生！<br><button id="btn_ok" onclick="gen_q_1()">我了解了</button>
         </p>
 
     </div>
@@ -303,6 +310,9 @@
                             gen_q();// submit
                        }
                     };
+                    function outer(zhuan) {
+                        window.open('learn.html?query='+z2h[zhuan], '_blank');
+                    }
                     function hover(element) {
                       element.setAttribute('src', "./assets/db/img/"+element.alt+".png");
                     }
