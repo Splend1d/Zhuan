@@ -27,7 +27,7 @@ print(len(dbf))
 # change order by number of parts
 # get zhuanid mapping
 z3000 = []
-unuseid = [x for x in range(1, 9832)]
+unuseid = set(x for x in range(1, 9832))
 for k in dbf:
     z = db[k]['fonts'][1][0]
     z3000.append([z, k])
@@ -35,14 +35,14 @@ for k in dbf:
 print(len(unuseid))
 zhuan2id = {db[k]['fonts'][1][0]: k for k in db}
 # remove unused child
-unusedzhuan = []
-for k in unuseid:
-    z = db[str(k)]['fonts'][1][0]
-    unusedzhuan.append(z)
-print(sum([len(c) for c in child]))
-for z in unusedzhuan:
-    del child[z]
-print(sum([len(c) for c in child.values()]))
+# unusedzhuan = []
+# for k in unuseid:
+#     z = db[str(k)]['fonts'][1][0]
+#     unusedzhuan.append(z)
+# print(sum([len(c) for c in child]))
+# for z in unusedzhuan:
+#     del child[z]
+# print(sum([len(c) for c in child.values()]))
 
 
 z3000_sorted = [[]]
@@ -63,10 +63,7 @@ while(len(child) != 0):
     for z in news:
         for k, v in child.items():
             child[k] = list(filter(lambda a: a != z, child[k]))
-    if depth == 1:
-        for z in unusedzhuan:
-            for k, v in child.items():
-                child[k] = list(filter(lambda a: a != z, child[k]))
+    
 
     if (len(z3000_sorted[-1]) == 0):
         child_sort = sorted(list(child.keys()), key=lambda a: rank[a], reverse=True)
@@ -77,8 +74,12 @@ while(len(child) != 0):
         for k, v in child.items():
             child[k] = list(filter(lambda a: a != child_sort[0], child[k]))
     depth += 1
+
     z3000_sorted.append([])
 print(depth)
+print(z3000_sorted)
+
+z3000_sorted = [[[v[0],v[1]] for v in d if len(d) != 0 and int(v[1]) not in unuseid]for d in z3000_sorted]
 print([len(x) for x in z3000_sorted])
 # print(child)
 print(sum([len(x) for x in z3000_sorted]))
@@ -86,10 +87,16 @@ print(sum([len(x) for x in z3000_sorted]))
 z3000_sorted_fine = [sorted(x, key=lambda v:v[1]) for x in z3000_sorted]
 print(z3000_sorted_fine)
 z3000 = []
+z3000z = []
 for depth in z3000_sorted_fine:
     for e in depth:
         z3000.append(e[1])
+        z3000z.append(e[0])
 print(len(z3000))
+for n,i in enumerate(z3000z):
+	if fontmap['z2h'][i] == "":
+		print(n)
+print([fontmap['z2h'][z] for z in z3000z])
 
 for n, i in enumerate(z3000):
     if i == "94":
