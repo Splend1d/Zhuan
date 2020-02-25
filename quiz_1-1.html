@@ -166,7 +166,7 @@
             genned = false;
             this_q_idx += 1;
             this_char_idx = random_idx_ls[this_q_idx-1] + (level-1)*100;
-            this_ans = zhuanid_map_all[freq3000[this_char_idx]]['han']
+            this_ans = zhuanid_map_all[freq3000[this_char_idx]]['han'][0]
             document.getElementById("pic_q").src = "./assets/db/img/"+zhuanid_map_all[freq3000[this_char_idx]]['fonts'][1][0]+".png";
             document.getElementById("pic_q").alt = zhuanid_map_all[freq3000[this_char_idx]]['fonts'][1][0];
             document.getElementById("pic_a").src = "./assets/db/img/"+zhuanid_map_all[freq3000[this_char_idx]]['fonts'][0][0]+".png";
